@@ -1,280 +1,145 @@
 package com.university.studentsupport.service;
 
-import com.university.studentsupport.model.FAQ;
-import com.university.studentsupport.repository.FAQRepository;
+import com.azure.core.credential.AccessToken;
+import com.azure.core.credential.TokenRequestContext;
+import com.azure.identity.DefaultAzureCredential;
+import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 @Service
 public class ChatService {
 
-    private final FAQRepository faqRepository;
+    private final HttpClient httpClient;
+    private final ObjectMapper objectMapper;
+    private final DefaultAzureCredential credential;
 
-    public ChatService(FAQRepository faqRepository) {
-        this.faqRepository = faqRepository;
+    private final String projectEndpoint;
+    private final String agentName;
+
+    public ChatService(
+            @Value("${foundry.project-endpoint}") String projectEndpoint,
+            @Value("${foundry.agent-name}") String agentName) {
+
+        this.httpClient = HttpClient.newHttpClient();
+        this.objectMapper = new ObjectMapper();
+        this.credential = new DefaultAzureCredentialBuilder().build();
+
+        this.projectEndpoint = projectEndpoint;
+        this.agentName = agentName;
     }
 
-    public Map<String, Object> processMessage(String message) {
+    public String processMessage(String message) {
 
-        Map<String, Object> response =
-                new LinkedHashMap<>();
-
-        // ==========================================
-        // EMPTY MESSAGE
-        // ==========================================
-
-        if (message == null || message.trim().isEmpty()) {
-
-            response.put(
-                    "answer",
-                    "Please enter a question."
-            );
-
-            response.put(
-                    "source",
-                    "system"
-            );
-
-            return response;
+        if (message == null || message.isBlank()) {
+            return "Please enter a question.";
         }
 
-        String query =
-                message.toLowerCase().trim();
+        try {
+            AccessToken token = credential.getToken(
+                    new TokenRequestContext()
+                            .addScopes("https://ai.azure.com/.default")
+            ).block();
 
+            if (token == null) {
+                return "Could not get Azure authentication token.";
+            }
 
-        // ==========================================
-        // GREETING
-        // ==========================================
+            String url =
+                    projectEndpoint
+                            + "/agents/"
+                            + agentName
+                            + "/endpoint/protocols/openai/responses?api-version=v1";
 
-        if (query.matches(
-                ".*\\b(hello|hi|hey|namaste)\\b.*"
-        )) {
+            ObjectNode body = objectMapper.createObjectNode();
 
-            response.put(
-                    "answer",
-                    "Hello! 👋 I am UniAssist, your University Student Support Agent. How can I help you?"
-            );
+            ArrayNode input = body.putArray("input");
 
-            response.put(
-                    "source",
-                    "UniAssist"
-            );
+            ObjectNode userMessage = input.addObject();
+            userMessage.put("role", "user");
+            userMessage.put("content", message);
 
-            return response;
-        }
-
-
-        // ==========================================
-        // GET ALL FAQs
-        // ==========================================
-
-        List<FAQ> allFaqs =
-                faqRepository.findAll();
-
-
-        // ==========================================
-        // COMMON WORDS TO IGNORE
-        // ==========================================
-
-        String[] stopWords = {
-
-                "what",
-                "when",
-                "where",
-                "why",
-                "how",
-                "can",
-                "could",
-                "would",
-                "should",
-                "is",
-                "are",
-                "the",
-                "a",
-                "an",
-                "to",
-                "for",
-                "of",
-                "my",
-                "i",
-                "me",
-                "do",
-                "does",
-                "will",
-                "and",
-                "or",
-                "in",
-                "on",
-                "please",
-                "tell",
-                "about",
-                "get",
-                "find"
-        };
-
-
-        Set<String> stopWordsSet =
-                new HashSet<>(
-                        Arrays.asList(stopWords)
-                );
-
-
-        // ==========================================
-        // SPLIT USER QUESTION
-        // ==========================================
-
-        Set<String> queryWords =
-                Arrays.stream(
-                                query
-                                        .replaceAll(
-                                                "[^a-z0-9 ]",
-                                                " "
-                                        )
-                                        .split("\\s+")
-                        )
-
-                        .filter(
-                                word ->
-                                        word.length() > 2
-                                                &&
-                                        !stopWordsSet.contains(word)
-                        )
-
-                        .collect(
-                                Collectors.toSet()
-                        );
-
-
-        // ==========================================
-        // FIND BEST FAQ
-        // ==========================================
-
-        FAQ bestFAQ = null;
-
-        int bestScore = 0;
-
-
-        for (FAQ faq : allFaqs) {
-
-            String faqText =
-                    (
-                            faq.getQuestion()
-                                    + " "
-                                    + faq.getCategory()
-                    )
-                            .toLowerCase()
-                            .replaceAll(
-                                    "[^a-z0-9 ]",
-                                    " "
-                            );
-
-
-            Set<String> faqWords =
-                    new HashSet<>(
-                            Arrays.asList(
-                                    faqText.split("\\s+")
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + token.getToken())
+                    .POST(
+                            HttpRequest.BodyPublishers.ofString(
+                                    objectMapper.writeValueAsString(body)
                             )
+                    )
+                    .build();
+
+            HttpResponse<String> response =
+                    httpClient.send(
+                            request,
+                            HttpResponse.BodyHandlers.ofString()
                     );
 
+            System.out.println(
+                    "Foundry Agent HTTP Status: " + response.statusCode()
+            );
 
-            int score = 0;
+            if (response.statusCode() < 200 ||
+                response.statusCode() >= 300) {
 
+                System.out.println(
+                        "Foundry Agent Response: " + response.body()
+                );
 
-            // Compare words
-            for (String word : queryWords) {
+                return "Foundry Agent request failed. Status: "
+                        + response.statusCode();
+            }
 
-                if (faqWords.contains(word)) {
+            return extractAnswer(response.body());
 
-                    score++;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Could not connect to the UniAssist Foundry agent.";
+        }
+    }
+
+    private String extractAnswer(String responseBody) {
+
+        try {
+            JsonNode root = objectMapper.readTree(responseBody);
+
+            JsonNode output = root.path("output");
+
+            if (output.isArray()) {
+
+                for (JsonNode item : output) {
+
+                    JsonNode content = item.path("content");
+
+                    if (content.isArray()) {
+
+                        for (JsonNode contentItem : content) {
+
+                            JsonNode text = contentItem.path("text");
+
+                            if (text.isTextual()) {
+                                return text.asText();
+                            }
+                        }
+                    }
                 }
             }
 
+            return responseBody;
 
-            // Category bonus
-            if (
-                    query.contains(
-                            faq.getCategory()
-                                    .toLowerCase()
-                    )
-            ) {
-
-                score += 2;
-            }
-
-
-            // Exact question bonus
-            if (
-                    query.equals(
-                            faq.getQuestion()
-                                    .toLowerCase()
-                    )
-            ) {
-
-                score += 10;
-            }
-
-
-            // Best match
-            if (score > bestScore) {
-
-                bestScore = score;
-
-                bestFAQ = faq;
-            }
+        } catch (Exception e) {
+            return responseBody;
         }
-
-
-        // ==========================================
-        // RETURN MATCHED ANSWER
-        // ==========================================
-
-        if (
-                bestFAQ != null
-                        &&
-                bestScore >= 1
-        ) {
-
-            response.put(
-                    "answer",
-                    bestFAQ.getAnswer()
-            );
-
-            response.put(
-                    "source",
-                    "University FAQ"
-            );
-
-            response.put(
-                    "category",
-                    bestFAQ.getCategory()
-            );
-
-            response.put(
-                    "matchedQuestion",
-                    bestFAQ.getQuestion()
-            );
-
-            return response;
-        }
-
-
-        // ==========================================
-        // FALLBACK
-        // ==========================================
-
-        response.put(
-                "answer",
-                "I couldn't find a specific answer in the university knowledge base. Try asking about admissions, courses, examinations, attendance, fees, library, student portal, hostel, support tickets, internships or placements."
-        );
-
-        response.put(
-                "source",
-                "UniAssist"
-        );
-
-        return response;
     }
 }

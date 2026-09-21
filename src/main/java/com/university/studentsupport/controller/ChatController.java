@@ -4,6 +4,7 @@ import com.university.studentsupport.service.ChatService;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -23,6 +24,16 @@ public class ChatController {
 
         String message = request.get("message");
 
-        return chatService.processMessage(message);
+        String answer =
+                chatService.processMessage(message);
+
+        Map<String, Object> response =
+                new HashMap<>();
+
+        response.put("answer", answer);
+        response.put("source", "Microsoft Foundry");
+        response.put("agent", "nodefix1");
+
+        return response;
     }
 }
