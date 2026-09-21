@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>UniAssist | Student Support Agent</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">U</div>
+
+            <div>
+                <h2>UniAssist</h2>
+                <span>Student Support</span>
+            </div>
+        </div>
+
+        <nav>
+
+            <button class="nav-item active"
+                    onclick="showSection('dashboard', this)">
+                🏠
+                <span>Dashboard</span>
+            </button>
+
+            <button class="nav-item"
+                    onclick="showSection('assistant', this)">
+                🤖
+                <span>AI Assistant</span>
+            </button>
+
+            <button class="nav-item"
+                    onclick="showSection('faqs', this)">
+                ❓
+                <span>FAQs</span>
+            </button>
+
+            <button class="nav-item"
+                    onclick="showSection('tickets', this)">
+                🎫
+                <span>Support Tickets</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>System Online</strong>
+                    <small>All services operational</small>
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <div>
+                <h1 id="page-title">Dashboard</h1>
+
+                <p>
+                    Welcome back! Here's what's happening today.
+                </p>
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="avatar">
+                    S
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD -->
+        <section id="dashboard"
+                 class="section active">
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        👨‍🎓
+                    </div>
+
+                    <div>
+                        <span>Total Students</span>
+                        <h2 id="totalStudents">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        ❓
+                    </div>
+
+                    <div>
+                        <span>FAQs Available</span>
+                        <h2 id="totalFAQs">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+                        🎫
+                    </div>
+
+                    <div>
+                        <span>Total Tickets</span>
+                        <h2 id="totalTickets">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        ✓
+                    </div>
+
+                    <div>
+                        <span>Open Tickets</span>
+                        <h2 id="openTickets">0</h2>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HERO -->
+            <div class="hero">
+
+                <div class="hero-content">
+
+                    <span class="hero-badge">
+                        ✨ AI-POWERED STUDENT SUPPORT
+                    </span>
+
+                    <h2>
+                        How can we help you today?
+                    </h2>
+
+                    <p>
+                        Ask UniAssist about academics, exams,
+                        fees, attendance, library services and more.
+                    </p>
+
+                    <button
+                        class="primary-btn"
+                        onclick="showSectionByName('assistant')">
+
+                        Start Chatting →
+
+                    </button>
+
+                </div>
+
+                <div class="hero-graphic">
+                    🤖
+                </div>
+
+            </div>
+
+
+            <!-- QUICK SERVICES -->
+            <div class="section-heading">
+
+                <div>
+                    <h2>Quick Services</h2>
+
+                    <p>
+                        Access commonly used student services.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="services-grid">
+
+                <div class="service-card"
+                     onclick="showSectionByName('assistant')">
+
+                    <div class="service-icon">
+                        🤖
+                    </div>
+
+                    <h3>AI Assistant</h3>
+
+                    <p>
+                        Get instant answers to your questions.
+                    </p>
+
+                    <span>Open Assistant →</span>
+
+                </div>
+
+
+                <div class="service-card"
+                     onclick="showSectionByName('faqs')">
+
+                    <div class="service-icon">
+                        📚
+                    </div>
+
+                    <h3>University FAQs</h3>
+
+                    <p>
+                        Browse frequently asked questions.
+                    </p>
+
+                    <span>Browse FAQs →</span>
+
+                </div>
+
+
+                <div class="service-card"
+                     onclick="showSectionByName('tickets')">
+
+                    <div class="service-icon">
+                        🎫
+                    </div>
+
+                    <h3>Support Ticket</h3>
+
+                    <p>
+                        Raise an issue with university support.
+                    </p>
+
+                    <span>Create Ticket →</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI ASSISTANT -->
+        <section id="assistant"
+                 class="section">
+
+            <div class="chat-container">
+
+                <div class="chat-header">
+
+                    <div class="chat-avatar">
+                        🤖
+                    </div>
+
+                    <div>
+                        <h2>UniAssist AI</h2>
+
+                        <span>
+                            ● Online
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div id="chatMessages"
+                     class="chat-messages">
+
+                    <div class="message bot">
+
+                        <div class="message-avatar">
+                            🤖
+                        </div>
+
+                        <div class="message-content">
+
+                            <p>
+                                Hello! 👋 I'm UniAssist.
+                                How can I help you today?
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="suggestions">
+
+                    <button onclick="askSuggestion('What are the exam details?')">
+                        📅 Exam details
+                    </button>
+
+                    <button onclick="askSuggestion('How can I pay my fees?')">
+                        💳 Fee payment
+                    </button>
+
+                    <button onclick="askSuggestion('What is the attendance requirement?')">
+                        📊 Attendance
+                    </button>
+
+                    <button onclick="askSuggestion('What are the library timings?')">
+                        📚 Library
+                    </button>
+
+                </div>
+
+
+                <div class="chat-input-area">
+
+                    <input
+                        id="chatInput"
+                        type="text"
+                        placeholder="Ask UniAssist anything..."
+                        onkeydown="handleChatKey(event)"
+                    >
+
+                    <button onclick="sendMessage()">
+                        ➤
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FAQ SECTION -->
+        <section id="faqs"
+                 class="section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Frequently Asked Questions</h2>
+
+                    <p>
+                        Find answers to common university questions.
+                    </p>
+                </div>
+
+                <div class="search-box">
+
+                    <input
+                        id="faqSearch"
+                        type="text"
+                        placeholder="Search FAQs..."
+                        oninput="searchFAQs()"
+                    >
+
+                    🔍
+
+                </div>
+
+            </div>
+
+
+            <div id="faqList"
+                 class="faq-list">
+
+                <div class="loading">
+                    Loading FAQs...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TICKETS -->
+        <section id="tickets"
+                 class="section">
+
+            <div class="ticket-layout">
+
+                <div class="ticket-form-card">
+
+                    <h2>Create Support Ticket</h2>
+
+                    <p>
+                        Tell us about your issue and our support
+                        team will assist you.
+                    </p>
+
+
+                    <form id="ticketForm"
+                          onsubmit="createTicket(event)">
+
+                        <label>
+                            Student Name
+                        </label>
+
+                        <input
+                            id="ticketName"
+                            type="text"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            id="ticketEmail"
+                            type="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select id="ticketCategory"
+                                required>
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option>
+                                Academic
+                            </option>
+
+                            <option>
+                                Examination
+                            </option>
+
+                            <option>
+                                Fees
+                            </option>
+
+                            <option>
+                                Attendance
+                            </option>
+
+                            <option>
+                                Technical
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea
+                            id="ticketDescription"
+                            rows="5"
+                            placeholder="Describe your issue..."
+                            required
+                        ></textarea>
+
+
+                        <button class="primary-btn"
+                                type="submit">
+
+                            Submit Ticket
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <div class="ticket-list-card">
+
+                    <div class="section-heading">
+
+                        <div>
+                            <h2>Recent Tickets</h2>
+
+                            <p>
+                                Your submitted support requests.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div id="ticketList">
+
+                        <div class="empty-state">
+                            No tickets created yet.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
