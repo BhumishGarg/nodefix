@@ -1,70 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>UniAssist | Student Support Agent</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b3551">
+    <title>NodeFix | Student Support Agent</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="app">
+<div class="app-shell">
 
-    <!-- SIDEBAR -->
+    <!-- ================= SIDEBAR ================= -->
+
     <aside class="sidebar">
 
-        <div class="logo">
-            <div class="logo-icon">U</div>
+        <div>
 
-            <div>
-                <h2>UniAssist</h2>
-                <span>Student Support</span>
+            <!-- BRAND -->
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    N
+                </div>
+
+                <div>
+                    <div class="brand-name">
+                        NodeFix
+                    </div>
+
+                    <div class="brand-subtitle">
+                        Student Support
+                    </div>
+                </div>
+
             </div>
+
+
+            <!-- NAVIGATION -->
+
+            <div class="sidebar-label">
+                Workspace
+            </div>
+
+
+            <nav class="sidebar-nav"
+                 aria-label="Primary navigation">
+
+                <!-- DASHBOARD -->
+
+                <button class="nav-item active"
+                        onclick="showSection('dashboard', this)">
+
+                    <span class="nav-icon">
+
+                        <svg viewBox="0 0 24 24"
+                             fill="none">
+
+                            <path d="M4 10.5 12 4l8 6.5v8.2a1.3 1.3 0 0 1-1.3 1.3H5.3A1.3 1.3 0 0 1 4 18.7v-8.2Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"/>
+
+                            <path d="M9 20v-5.5h6V20"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"
+                                  stroke-linecap="round"/>
+
+                        </svg>
+
+                    </span>
+
+                    <span>
+                        Dashboard
+                    </span>
+
+                </button>
+
+
+                <!-- AI ASSISTANT -->
+
+                <button class="nav-item"
+                        onclick="showSection('assistant', this)">
+
+                    <span class="nav-icon">
+
+                        <svg viewBox="0 0 24 24"
+                             fill="none">
+
+                            <rect x="4"
+                                  y="5"
+                                  width="16"
+                                  height="14"
+                                  rx="3"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"/>
+
+                            <path d="M8 9.5h.01M16 9.5h.01M8 14h8"
+                                  stroke="currentColor"
+                                  stroke-width="2.2"
+                                  stroke-linecap="round"/>
+
+                            <path d="M12 5V3M8 19v2M16 19v2"
+                                  stroke="currentColor"
+                                  stroke-width="1.6"
+                                  stroke-linecap="round"/>
+
+                        </svg>
+
+                    </span>
+
+                    <span>
+                        AI Assistant
+                    </span>
+
+                </button>
+
+
+                <!-- SUPPORT TICKETS -->
+
+                <button class="nav-item"
+                        onclick="showSection('tickets', this)">
+
+                    <span class="nav-icon">
+
+                        <svg viewBox="0 0 24 24"
+                             fill="none">
+
+                            <path d="M5 7.5A1.5 1.5 0 0 1 6.5 6h11A1.5 1.5 0 0 1 19 7.5v3.1a2 2 0 1 0 0 2.8v3.1a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 16.5v-3.1a2 2 0 1 0 0-2.8V7.5Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"/>
+
+                            <path d="M9 9.5h6M9 14.5h4"
+                                  stroke="currentColor"
+                                  stroke-width="1.6"
+                                  stroke-linecap="round"/>
+
+                        </svg>
+
+                    </span>
+
+                    <span>
+                        Support Tickets
+                    </span>
+
+                </button>
+
+            </nav>
+
         </div>
 
-        <nav>
 
-            <button class="nav-item active"
-                    onclick="showSection('dashboard', this)">
-                🏠
-                <span>Dashboard</span>
-            </button>
+        <!-- SIDEBAR FOOTER -->
 
-            <button class="nav-item"
-                    onclick="showSection('assistant', this)">
-                🤖
-                <span>AI Assistant</span>
-            </button>
+        <div class="sidebar-footer">
 
-            <button class="nav-item"
-                    onclick="showSection('faqs', this)">
-                ❓
-                <span>FAQs</span>
-            </button>
+            <div class="status-card">
 
-            <button class="nav-item"
-                    onclick="showSection('tickets', this)">
-                🎫
-                <span>Support Tickets</span>
-            </button>
-
-        </nav>
-
-        <div class="sidebar-bottom">
-
-            <div class="system-status">
                 <span class="status-dot"></span>
 
                 <div>
-                    <strong>System Online</strong>
-                    <small>All services operational</small>
+
+                    <strong>
+                        System online
+                    </strong>
+
+                    <small>
+                        Support services are running
+                    </small>
+
                 </div>
+
+            </div>
+
+
+            <div class="sidebar-footer-note">
+                NodeFix · University Support
             </div>
 
         </div>
@@ -72,21 +184,42 @@
     </aside>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- ================= MAIN ================= -->
+
     <main class="main">
 
-        <!-- TOP BAR -->
+
+        <!-- ================= TOP BAR ================= -->
+
         <header class="topbar">
 
             <div>
-                <h1 id="page-title">Dashboard</h1>
+
+                <div class="eyebrow">
+                    NODEFIX STUDENT PORTAL
+                </div>
+
+                <h1 id="page-title">
+                    Dashboard
+                </h1>
 
                 <p>
-                    Welcome back! Here's what's happening today.
+                    One place for answers and university support.
                 </p>
+
             </div>
 
+
             <div class="topbar-right">
+
+                <div class="availability">
+
+                    <span class="status-dot"></span>
+
+                    AI assistant ready
+
+                </div>
+
 
                 <div class="avatar">
                     S
@@ -97,63 +230,280 @@
         </header>
 
 
+
+        <!-- ===================================================== -->
         <!-- DASHBOARD -->
+        <!-- ===================================================== -->
+
         <section id="dashboard"
                  class="section active">
 
+
+            <!-- HERO -->
+
+            <div class="welcome-card">
+
+
+                <div class="welcome-content">
+
+
+                    <div class="welcome-kicker">
+                        SMART STUDENT SUPPORT
+                    </div>
+
+
+                    <h2>
+
+                        Get the answer.
+                        <span>
+                            Get on with your day.
+                        </span>
+
+                    </h2>
+
+
+                    <p>
+
+                        NodeFix helps students find university
+                        information quickly, ask questions in
+                        natural language, and raise a support
+                        ticket when human help is needed.
+
+                    </p>
+
+
+                    <div class="welcome-actions">
+
+
+                        <button class="primary-btn"
+                                onclick="showSectionByName('assistant')">
+
+                            <span>
+                                Open AI Assistant
+                            </span>
+
+
+                            <svg viewBox="0 0 24 24"
+                                 fill="none">
+
+                                <path d="M5 12h13M13 6l6 6-6 6"
+                                      stroke="currentColor"
+                                      stroke-width="1.8"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+
+                            </svg>
+
+                        </button>
+
+
+
+                        <button class="secondary-btn"
+                                onclick="showSectionByName('tickets')">
+
+                            Raise a support ticket
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- AI PREVIEW -->
+
+                <div class="welcome-visual"
+                     aria-hidden="true">
+
+
+                    <div class="visual-glow"></div>
+
+
+                    <div class="assistant-window">
+
+
+                        <div class="mini-window-top">
+
+                            <span></span>
+                            <span></span>
+                            <span></span>
+
+                            <strong>
+                                NodeFix AI
+                            </strong>
+
+                        </div>
+
+
+                        <div class="mini-message user">
+
+                            When is the fee deadline?
+
+                        </div>
+
+
+                        <div class="mini-message bot">
+
+                            <span class="mini-bot-mark">
+                                N
+                            </span>
+
+                            <span>
+                                Let me check the latest
+                                university information.
+                            </span>
+
+                        </div>
+
+
+                        <div class="mini-input">
+
+                            <span>
+                                Ask a question...
+                            </span>
+
+                            <b>
+                                ↑
+                            </b>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATS -->
+
             <div class="stats-grid">
+
+
+                <!-- STUDENTS -->
 
                 <div class="stat-card">
 
                     <div class="stat-icon blue">
-                        👨‍🎓
+
+                        <svg viewBox="0 0 24 24"
+                             fill="none">
+
+                            <path d="M16 19v-1.4a3.6 3.6 0 0 0-3.6-3.6H7.6A3.6 3.6 0 0 0 4 17.6V19"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linecap="round"/>
+
+                            <circle cx="10"
+                                    cy="7.5"
+                                    r="3"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"/>
+
+                            <path d="M16.2 10.5a3 3 0 1 0 0-6"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"
+                                  stroke-linecap="round"/>
+
+                        </svg>
+
                     </div>
 
+
                     <div>
-                        <span>Total Students</span>
-                        <h2 id="totalStudents">0</h2>
+
+                        <span>
+                            Total Students
+                        </span>
+
+                        <h2 id="totalStudents">
+                            0
+                        </h2>
+
                     </div>
 
                 </div>
 
+
+
+                <!-- TICKETS -->
 
                 <div class="stat-card">
 
-                    <div class="stat-icon purple">
-                        ❓
+                    <div class="stat-icon cyan">
+
+                        <svg viewBox="0 0 24 24"
+                             fill="none">
+
+                            <path d="M7 5h10a2 2 0 0 1 2 2v10l-3.2-2.3L12 17l-3.8-2.3L5 17V7a2 2 0 0 1 2-2Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.7"/>
+
+                            <path d="M8.5 9h7M8.5 12h5"
+                                  stroke="currentColor"
+                                  stroke-width="1.6"
+                                  stroke-linecap="round"/>
+
+                        </svg>
+
                     </div>
 
+
                     <div>
-                        <span>FAQs Available</span>
-                        <h2 id="totalFAQs">0</h2>
+
+                        <span>
+                            Total Tickets
+                        </span>
+
+                        <h2 id="totalTickets">
+                            0
+                        </h2>
+
                     </div>
 
                 </div>
 
 
-                <div class="stat-card">
 
-                    <div class="stat-icon orange">
-                        🎫
-                    </div>
-
-                    <div>
-                        <span>Total Tickets</span>
-                        <h2 id="totalTickets">0</h2>
-                    </div>
-
-                </div>
-
+                <!-- OPEN -->
 
                 <div class="stat-card">
 
                     <div class="stat-icon green">
-                        ✓
+
+                        <svg viewBox="0 0 24 24"
+                             fill="none">
+
+                            <path d="m6.5 12.5 3.3 3.3L17.8 8"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"/>
+
+                            <circle cx="12"
+                                    cy="12"
+                                    r="8.5"
+                                    stroke="currentColor"
+                                    stroke-width="1.6"/>
+
+                        </svg>
+
                     </div>
+
 
                     <div>
-                        <span>Open Tickets</span>
-                        <h2 id="openTickets">0</h2>
+
+                        <span>
+                            Open Tickets
+                        </span>
+
+                        <h2 id="openTickets">
+                            0
+                        </h2>
+
                     </div>
 
                 </div>
@@ -161,107 +511,142 @@
             </div>
 
 
-            <!-- HERO -->
-            <div class="hero">
 
-                <div class="hero-content">
+            <!-- SERVICES -->
 
-                    <span class="hero-badge">
-                        ✨ AI-POWERED STUDENT SUPPORT
-                    </span>
-
-                    <h2>
-                        How can we help you today?
-                    </h2>
-
-                    <p>
-                        Ask UniAssist about academics, exams,
-                        fees, attendance, library services and more.
-                    </p>
-
-                    <button
-                        class="primary-btn"
-                        onclick="showSectionByName('assistant')">
-
-                        Start Chatting →
-
-                    </button>
-
-                </div>
-
-                <div class="hero-graphic">
-                    🤖
-                </div>
-
-            </div>
-
-
-            <!-- QUICK SERVICES -->
             <div class="section-heading">
 
                 <div>
-                    <h2>Quick Services</h2>
+
+                    <h2>
+                        What do you need?
+                    </h2>
 
                     <p>
-                        Access commonly used student services.
+                        Jump straight to the service you use most.
                     </p>
+
                 </div>
 
             </div>
+
 
 
             <div class="services-grid">
 
+
+                <!-- AI ASSISTANT -->
+
                 <div class="service-card"
                      onclick="showSectionByName('assistant')">
 
-                    <div class="service-icon">
-                        🤖
+
+                    <div class="service-card-top">
+
+
+                        <div class="service-icon">
+
+                            <svg viewBox="0 0 24 24"
+                                 fill="none">
+
+                                <rect x="4"
+                                      y="5"
+                                      width="16"
+                                      height="14"
+                                      rx="3"
+                                      stroke="currentColor"
+                                      stroke-width="1.7"/>
+
+                                <path d="M8 10h.01M16 10h.01M8.5 14h7"
+                                      stroke="currentColor"
+                                      stroke-width="1.8"
+                                      stroke-linecap="round"/>
+
+                                <path d="M12 5V3"
+                                      stroke="currentColor"
+                                      stroke-width="1.6"
+                                      stroke-linecap="round"/>
+
+                            </svg>
+
+                        </div>
+
+
+                        <span class="service-arrow">
+                            →
+                        </span>
+
                     </div>
 
-                    <h3>AI Assistant</h3>
+
+                    <h3>
+                        AI Assistant
+                    </h3>
+
 
                     <p>
-                        Get instant answers to your questions.
+                        Ask about exams, attendance, fees,
+                        library services and more.
                     </p>
 
-                    <span>Open Assistant →</span>
+
+                    <span class="service-link">
+                        Start a conversation
+                    </span>
 
                 </div>
 
 
-                <div class="service-card"
-                     onclick="showSectionByName('faqs')">
 
-                    <div class="service-icon">
-                        📚
-                    </div>
-
-                    <h3>University FAQs</h3>
-
-                    <p>
-                        Browse frequently asked questions.
-                    </p>
-
-                    <span>Browse FAQs →</span>
-
-                </div>
-
+                <!-- SUPPORT -->
 
                 <div class="service-card"
                      onclick="showSectionByName('tickets')">
 
-                    <div class="service-icon">
-                        🎫
+
+                    <div class="service-card-top">
+
+
+                        <div class="service-icon">
+
+                            <svg viewBox="0 0 24 24"
+                                 fill="none">
+
+                                <path d="M5 7.5A1.5 1.5 0 0 1 6.5 6h11A1.5 1.5 0 0 1 19 7.5v3.1a2 2 0 1 0 0 2.8v3.1a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 16.5v-3.1a2 2 0 1 0 0-2.8V7.5Z"
+                                      stroke="currentColor"
+                                      stroke-width="1.7"/>
+
+                                <path d="M9 9.5h6M9 14.5h4"
+                                      stroke="currentColor"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"/>
+
+                            </svg>
+
+                        </div>
+
+
+                        <span class="service-arrow">
+                            →
+                        </span>
+
                     </div>
 
-                    <h3>Support Ticket</h3>
+
+                    <h3>
+                        Support Ticket
+                    </h3>
+
 
                     <p>
-                        Raise an issue with university support.
+                        Send a problem to the support team
+                        when human assistance is needed.
                     </p>
 
-                    <span>Create Ticket →</span>
+
+                    <span class="service-link">
+                        Create a ticket
+                    </span>
 
                 </div>
 
@@ -270,43 +655,80 @@
         </section>
 
 
+
+        <!-- ===================================================== -->
         <!-- AI ASSISTANT -->
+        <!-- ===================================================== -->
+
         <section id="assistant"
                  class="section">
 
+
             <div class="chat-container">
+
+
+                <!-- CHAT HEADER -->
 
                 <div class="chat-header">
 
+
                     <div class="chat-avatar">
-                        🤖
+                        N
                     </div>
 
+
                     <div>
-                        <h2>UniAssist AI</h2>
+
+                        <h2>
+                            NodeFix AI
+                        </h2>
+
 
                         <span>
-                            ● Online
+
+                            <i></i>
+
+                            Online
+
                         </span>
+
+                    </div>
+
+
+                    <div class="chat-header-note">
+
+                        University support assistant
+
                     </div>
 
                 </div>
 
 
+
+                <!-- MESSAGES -->
+
                 <div id="chatMessages"
                      class="chat-messages">
 
+
                     <div class="message bot">
 
+
                         <div class="message-avatar">
-                            🤖
+                            N
                         </div>
+
 
                         <div class="message-content">
 
                             <p>
-                                Hello! 👋 I'm UniAssist.
-                                How can I help you today?
+
+                                Hello! I'm NodeFix.
+                                Ask me about exams,
+                                fees, attendance,
+                                library services,
+                                or other university support.
+
                             </p>
 
                         </div>
@@ -316,38 +738,67 @@
                 </div>
 
 
+
+                <!-- QUICK PROMPTS -->
+
                 <div class="suggestions">
 
+
                     <button onclick="askSuggestion('What are the exam details?')">
-                        📅 Exam details
+                        Exam details
                     </button>
+
 
                     <button onclick="askSuggestion('How can I pay my fees?')">
-                        💳 Fee payment
+                        Fee payment
                     </button>
+
 
                     <button onclick="askSuggestion('What is the attendance requirement?')">
-                        📊 Attendance
+                        Attendance
                     </button>
 
+
                     <button onclick="askSuggestion('What are the library timings?')">
-                        📚 Library
+                        Library
                     </button>
 
                 </div>
 
 
+
+                <!-- INPUT -->
+
                 <div class="chat-input-area">
+
 
                     <input
                         id="chatInput"
                         type="text"
-                        placeholder="Ask UniAssist anything..."
+                        placeholder="Ask NodeFix a question..."
                         onkeydown="handleChatKey(event)"
                     >
 
-                    <button onclick="sendMessage()">
-                        ➤
+
+                    <button
+                        onclick="sendMessage()"
+                        aria-label="Send message">
+
+                        <svg viewBox="0 0 24 24"
+                             fill="none">
+
+                            <path d="m5 12 14-7-4.2 14-3.4-6.2L5 12Z"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"
+                                  stroke-linejoin="round"/>
+
+                            <path d="m11.4 12.8 2.5-2.5"
+                                  stroke="currentColor"
+                                  stroke-width="1.6"
+                                  stroke-linecap="round"/>
+
+                        </svg>
+
                     </button>
 
                 </div>
@@ -357,70 +808,74 @@
         </section>
 
 
-        <!-- FAQ SECTION -->
-        <section id="faqs"
-                 class="section">
 
-            <div class="section-heading">
+        <!-- ===================================================== -->
+        <!-- SUPPORT TICKETS -->
+        <!-- ===================================================== -->
 
-                <div>
-                    <h2>Frequently Asked Questions</h2>
-
-                    <p>
-                        Find answers to common university questions.
-                    </p>
-                </div>
-
-                <div class="search-box">
-
-                    <input
-                        id="faqSearch"
-                        type="text"
-                        placeholder="Search FAQs..."
-                        oninput="searchFAQs()"
-                    >
-
-                    🔍
-
-                </div>
-
-            </div>
-
-
-            <div id="faqList"
-                 class="faq-list">
-
-                <div class="loading">
-                    Loading FAQs...
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- TICKETS -->
         <section id="tickets"
                  class="section">
 
+
+            <div class="section-heading page-section-heading">
+
+
+                <div>
+
+                    <div class="eyebrow">
+                        HUMAN SUPPORT
+                    </div>
+
+
+                    <h2>
+                        Support Tickets
+                    </h2>
+
+
+                    <p>
+                        Raise an issue and keep your support
+                        requests in one place.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
             <div class="ticket-layout">
+
+
+                <!-- CREATE TICKET -->
 
                 <div class="ticket-form-card">
 
-                    <h2>Create Support Ticket</h2>
+
+                    <div class="card-label">
+                        NEW REQUEST
+                    </div>
+
+
+                    <h2>
+                        Create Support Ticket
+                    </h2>
+
 
                     <p>
-                        Tell us about your issue and our support
-                        team will assist you.
+                        Give us the details and the support
+                        team can take it from there.
                     </p>
+
 
 
                     <form id="ticketForm"
                           onsubmit="createTicket(event)">
 
+
                         <label>
                             Student Name
                         </label>
+
 
                         <input
                             id="ticketName"
@@ -430,21 +885,25 @@
                         >
 
 
+
                         <label>
                             Email
                         </label>
 
+
                         <input
                             id="ticketEmail"
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder="Enter your university email"
                             required
                         >
+
 
 
                         <label>
                             Category
                         </label>
+
 
                         <select id="ticketCategory"
                                 required>
@@ -480,9 +939,11 @@
                         </select>
 
 
+
                         <label>
                             Description
                         </label>
+
 
                         <textarea
                             id="ticketDescription"
@@ -492,10 +953,26 @@
                         ></textarea>
 
 
-                        <button class="primary-btn"
-                                type="submit">
 
-                            Submit Ticket
+                        <button
+                            class="primary-btn form-submit"
+                            type="submit">
+
+                            <span>
+                                Submit Ticket
+                            </span>
+
+
+                            <svg viewBox="0 0 24 24"
+                                 fill="none">
+
+                                <path d="M5 12h13M13 6l6 6-6 6"
+                                      stroke="currentColor"
+                                      stroke-width="1.8"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+
+                            </svg>
 
                         </button>
 
@@ -504,19 +981,27 @@
                 </div>
 
 
+
+                <!-- RECENT TICKETS -->
+
                 <div class="ticket-list-card">
 
-                    <div class="section-heading">
 
-                        <div>
-                            <h2>Recent Tickets</h2>
-
-                            <p>
-                                Your submitted support requests.
-                            </p>
-                        </div>
-
+                    <div class="card-label">
+                        RECENT ACTIVITY
                     </div>
+
+
+                    <h2>
+                        Recent Tickets
+                    </h2>
+
+
+                    <p class="ticket-list-intro">
+                        Your latest support requests will
+                        appear here.
+                    </p>
+
 
                     <div id="ticketList">
 
@@ -540,5 +1025,4 @@
 <script src="app.js"></script>
 
 </body>
-
 </html>
