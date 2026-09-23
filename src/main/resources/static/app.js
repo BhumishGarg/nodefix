@@ -1,5 +1,5 @@
 // ==========================================
-// UniAssist Frontend JavaScript
+// NodeFix Frontend JavaScript
 // ==========================================
 
 const API_BASE = "/api";
@@ -11,53 +11,71 @@ const API_BASE = "/api";
 
 function showSection(sectionId, clickedButton) {
 
-    // Hide all sections
-    const sections = document.querySelectorAll(".section");
+    const sections =
+        document.querySelectorAll(".section");
 
     sections.forEach(section => {
         section.classList.remove("active");
     });
 
-    // Show selected section
-    const selectedSection = document.getElementById(sectionId);
+
+    const selectedSection =
+        document.getElementById(sectionId);
 
     if (selectedSection) {
         selectedSection.classList.add("active");
     }
 
-    // Update navigation buttons
-    const navItems = document.querySelectorAll(".nav-item");
+
+    const navItems =
+        document.querySelectorAll(".nav-item");
 
     navItems.forEach(item => {
         item.classList.remove("active");
     });
 
+
     if (clickedButton) {
         clickedButton.classList.add("active");
     }
 
-    // Update page title
+
     const titles = {
-        dashboard: "Dashboard",
-        assistant: "AI Assistant",
-        faqs: "Frequently Asked Questions",
-        tickets: "Support Tickets"
+
+        dashboard:
+            "Dashboard",
+
+        assistant:
+            "AI Assistant",
+
+        faqs:
+            "Frequently Asked Questions",
+
+        tickets:
+            "Support Tickets"
     };
 
-    const pageTitle = document.getElementById("page-title");
+
+    const pageTitle =
+        document.getElementById("page-title");
 
     if (pageTitle) {
-        pageTitle.textContent = titles[sectionId] || "UniAssist";
+
+        pageTitle.textContent =
+            titles[sectionId] ||
+            "NodeFix";
     }
 
-    // Load section data
+
     if (sectionId === "dashboard") {
         loadDashboard();
     }
 
+
     if (sectionId === "faqs") {
         loadFAQs();
     }
+
 
     if (sectionId === "tickets") {
         loadTickets();
@@ -66,16 +84,20 @@ function showSection(sectionId, clickedButton) {
 
 
 // ==========================================
-// OPEN SECTION FROM QUICK SERVICE
+// OPEN SECTION
 // ==========================================
 
 function showSectionByName(sectionId) {
 
-    const navButton = document.querySelector(
-        `.nav-item[onclick*="'${sectionId}'"]`
-    );
+    const navButton =
+        document.querySelector(
+            `.nav-item[onclick*="'${sectionId}'"]`
+        );
 
-    showSection(sectionId, navButton);
+    showSection(
+        sectionId,
+        navButton
+    );
 }
 
 
@@ -87,27 +109,45 @@ async function loadDashboard() {
 
     try {
 
-        const response = await fetch(
-            `${API_BASE}/dashboard`
-        );
+        const response =
+            await fetch(
+                `${API_BASE}/dashboard`
+            );
+
 
         if (!response.ok) {
-            throw new Error("Dashboard API failed");
+            throw new Error(
+                "Dashboard API failed"
+            );
         }
 
-        const data = await response.json();
 
-        document.getElementById("totalStudents").textContent =
-            data.totalStudents ?? 0;
+        const data =
+            await response.json();
 
-        document.getElementById("totalFAQs").textContent =
-            data.totalFAQs ?? 0;
 
-        document.getElementById("totalTickets").textContent =
-            data.totalTickets ?? 0;
+        setText(
+            "totalStudents",
+            data.totalStudents ?? 0
+        );
 
-        document.getElementById("openTickets").textContent =
-            data.openTickets ?? 0;
+
+        setText(
+            "totalFAQs",
+            data.totalFAQs ?? 0
+        );
+
+
+        setText(
+            "totalTickets",
+            data.totalTickets ?? 0
+        );
+
+
+        setText(
+            "openTickets",
+            data.openTickets ?? 0
+        );
 
     } catch (error) {
 
@@ -119,6 +159,20 @@ async function loadDashboard() {
 }
 
 
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+    if (element) {
+        element.textContent = value;
+    }
+}
+
+
 // ==========================================
 // CHAT
 // ==========================================
@@ -126,63 +180,181 @@ async function loadDashboard() {
 async function sendMessage() {
 
     const input =
-        document.getElementById("chatInput");
+        document.getElementById(
+            "chatInput"
+        );
+
+
+    if (!input) {
+        return;
+    }
+
 
     const message =
         input.value.trim();
+
 
     if (!message) {
         return;
     }
 
-    // Add user message
+
+    // --------------------------------------
+    // USER MESSAGE
+    // --------------------------------------
+
     addChatMessage(
         message,
         "user"
     );
 
+
     input.value = "";
 
-    // Show typing message
+
+    // --------------------------------------
+    // TYPING INDICATOR
+    // --------------------------------------
+
     const typingId =
-        addChatMessage(
-            "Thinking...",
-            "bot"
+        addTypingMessage();
+
+
+    setChatSendingState(
+        true
+    );
+
+
+    // --------------------------------------
+    // LANGUAGE
+    // --------------------------------------
+
+    const languageSelect =
+        document.getElementById(
+            "chatLanguage"
         );
+
+
+    const language =
+        languageSelect
+            ? languageSelect.value
+            : "English";
+
+
+    // --------------------------------------
+    // OPTIONAL STUDENT INFORMATION
+    // --------------------------------------
+
+    const studentName =
+        getStoredStudentName();
+
+
+    const email =
+        getStoredStudentEmail();
+
 
     try {
 
-        const response = await fetch(
-            `${API_BASE}/chat`,
-            {
-                method: "POST",
+        const response =
+            await fetch(
+                `${API_BASE}/chat`,
+                {
+                    method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                body: JSON.stringify({
-                    message: message
-                })
-            }
-        );
+                    body:
+                        JSON.stringify({
 
-        if (!response.ok) {
-            throw new Error("Chat API failed");
+                            message:
+                                message,
+
+                            language:
+                                language,
+
+                            studentName:
+                                studentName,
+
+                            email:
+                                email
+                        })
+                }
+            );
+
+
+        let data = {};
+
+
+        try {
+
+            data =
+                await response.json();
+
+        } catch (_) {
+
+            data = {};
         }
 
-        const data =
-            await response.json();
 
-        // Remove typing message
-        removeChatMessage(typingId);
+        // --------------------------------------
+        // API ERROR
+        // --------------------------------------
 
-        // Add AI response
+        if (!response.ok) {
+
+            throw new Error(
+                data.answer ||
+                data.message ||
+                `Chat API failed: ${response.status}`
+            );
+        }
+
+
+        // --------------------------------------
+        // REMOVE TYPING
+        // --------------------------------------
+
+        removeChatMessage(
+            typingId
+        );
+
+
+        // --------------------------------------
+        // AI ANSWER
+        // --------------------------------------
+
         addChatMessage(
             data.answer ||
             "Sorry, I couldn't generate a response.",
-            "bot"
+            "bot",
+            data.source ||
+            "NodeFix"
         );
+
+
+        // --------------------------------------
+        // AUTOMATIC TICKET
+        // --------------------------------------
+
+        if (
+            data.ticketCreated &&
+            data.ticketId
+        ) {
+
+            addTicketNotice(
+                data.ticketId,
+                data.ticketCategory,
+                data.ticketStatus
+            );
+
+
+            loadDashboard();
+
+            loadTickets();
+        }
 
     } catch (error) {
 
@@ -191,77 +363,238 @@ async function sendMessage() {
             error
         );
 
-        removeChatMessage(typingId);
+
+        removeChatMessage(
+            typingId
+        );
+
 
         addChatMessage(
             "Sorry, I am unable to connect to the support server right now.",
-            "bot"
+            "bot",
+            "NodeFix"
         );
+
+    } finally {
+
+        setChatSendingState(
+            false
+        );
+
+
+        input.focus();
     }
 }
 
 
 // ==========================================
-// ADD CHAT MESSAGE
+// CHAT MESSAGE
 // ==========================================
 
-function addChatMessage(message, sender) {
+function addChatMessage(
+    message,
+    sender,
+    source
+) {
 
     const chatMessages =
-        document.getElementById("chatMessages");
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    if (!chatMessages) {
+        return null;
+    }
+
 
     const messageWrapper =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     const messageId =
-        "msg-" + Date.now() + Math.random();
+        `msg-${Date.now()}-${Math.random()
+            .toString(36)
+            .slice(2, 8)}`;
 
-    messageWrapper.id = messageId;
+
+    messageWrapper.id =
+        messageId;
+
 
     messageWrapper.className =
         `message ${sender}`;
 
+
+    const safeMessage =
+        formatMessage(
+            message
+        );
+
+
     if (sender === "bot") {
 
+        const safeSource =
+            source
+                ? escapeHtml(source)
+                : "";
+
+
         messageWrapper.innerHTML = `
-            <div class="message-avatar">
-                🤖
+
+            <div
+                class="message-avatar"
+                aria-hidden="true"
+            >
+                N
             </div>
 
             <div class="message-content">
-                <p>${escapeHtml(message)}</p>
+
+                <p>
+                    ${safeMessage}
+                </p>
+
+                ${
+                    safeSource
+                        ? `
+                            <small
+                                class="message-source"
+                            >
+                                ${safeSource}
+                            </small>
+                        `
+                        : ""
+                }
+
             </div>
+
         `;
 
     } else {
 
         messageWrapper.innerHTML = `
+
             <div class="message-content">
-                <p>${escapeHtml(message)}</p>
+
+                <p>
+                    ${safeMessage}
+                </p>
+
             </div>
+
         `;
     }
+
 
     chatMessages.appendChild(
         messageWrapper
     );
 
-    // Automatically scroll down
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
+
+    scrollChatToBottom();
+
 
     return messageId;
 }
 
 
 // ==========================================
-// REMOVE CHAT MESSAGE
+// TYPING INDICATOR
 // ==========================================
 
-function removeChatMessage(messageId) {
+function addTypingMessage() {
+
+    const chatMessages =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    if (!chatMessages) {
+        return null;
+    }
+
+
+    const messageWrapper =
+        document.createElement(
+            "div"
+        );
+
+
+    const messageId =
+        `typing-${Date.now()}-${Math.random()
+            .toString(36)
+            .slice(2, 8)}`;
+
+
+    messageWrapper.id =
+        messageId;
+
+
+    messageWrapper.className =
+        "message bot typing-message";
+
+
+    messageWrapper.innerHTML = `
+
+        <div
+            class="message-avatar"
+            aria-hidden="true"
+        >
+            N
+        </div>
+
+
+        <div class="message-content">
+
+            <p
+                class="typing-bubble"
+                aria-label="NodeFix is thinking"
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </p>
+
+        </div>
+    `;
+
+
+    chatMessages.appendChild(
+        messageWrapper
+    );
+
+
+    scrollChatToBottom();
+
+
+    return messageId;
+}
+
+
+// ==========================================
+// REMOVE MESSAGE
+// ==========================================
+
+function removeChatMessage(
+    messageId
+) {
+
+    if (!messageId) {
+        return;
+    }
+
 
     const message =
-        document.getElementById(messageId);
+        document.getElementById(
+            messageId
+        );
+
 
     if (message) {
         message.remove();
@@ -270,25 +603,72 @@ function removeChatMessage(messageId) {
 
 
 // ==========================================
-// CHAT SUGGESTIONS
+// AUTOMATIC TICKET NOTICE
 // ==========================================
 
-function askSuggestion(question) {
+function addTicketNotice(
+    ticketId,
+    category,
+    status
+) {
+
+    const categoryText =
+        category
+            ? `Category: ${category}`
+            : "Category: Other";
+
+
+    const statusText =
+        status
+            ? `Status: ${status}`
+            : "Status: OPEN";
+
+
+    addChatMessage(
+        `A support ticket #${ticketId} has been created automatically.\n${categoryText}\n${statusText}`,
+        "bot",
+        "NodeFix Support"
+    );
+}
+
+
+// ==========================================
+// SUGGESTIONS
+// ==========================================
+
+function askSuggestion(
+    question
+) {
 
     const input =
-        document.getElementById("chatInput");
+        document.getElementById(
+            "chatInput"
+        );
 
-    input.value = question;
+
+    if (!input) {
+        return;
+    }
+
+
+    input.value =
+        question;
+
+
+    input.focus();
+
 
     sendMessage();
 }
 
 
 // ==========================================
-// ENTER KEY FOR CHAT
+// ENTER KEY
 // ==========================================
 
-function handleChatKey(event) {
+function handleChatKey(
+    event
+) {
 
     if (event.key === "Enter") {
 
@@ -300,30 +680,127 @@ function handleChatKey(event) {
 
 
 // ==========================================
+// CHAT SENDING STATE
+// ==========================================
+
+function setChatSendingState(
+    isSending
+) {
+
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
+
+
+    const button =
+        document.querySelector(
+            ".chat-input-area > button"
+        );
+
+
+    if (input) {
+        input.disabled =
+            isSending;
+    }
+
+
+    if (button) {
+
+        button.disabled =
+            isSending;
+
+
+        button.style.opacity =
+            isSending
+                ? "0.65"
+                : "1";
+
+
+        button.style.cursor =
+            isSending
+                ? "wait"
+                : "pointer";
+    }
+}
+
+
+// ==========================================
+// SCROLL CHAT
+// ==========================================
+
+function scrollChatToBottom() {
+
+    const chatMessages =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    if (!chatMessages) {
+        return;
+    }
+
+
+    requestAnimationFrame(
+        () => {
+
+            chatMessages.scrollTop =
+                chatMessages.scrollHeight;
+
+        }
+    );
+}
+
+
+// ==========================================
 // FAQ
 // ==========================================
 
 async function loadFAQs() {
 
     const faqList =
-        document.getElementById("faqList");
+        document.getElementById(
+            "faqList"
+        );
+
+
+    if (!faqList) {
+        return;
+    }
+
 
     faqList.innerHTML =
-        `<div class="loading">Loading FAQs...</div>`;
+        `
+            <div class="loading">
+                Loading FAQs...
+            </div>
+        `;
+
 
     try {
 
         const response =
-            await fetch(`${API_BASE}/faqs`);
+            await fetch(
+                `${API_BASE}/faqs`
+            );
+
 
         if (!response.ok) {
-            throw new Error("FAQ API failed");
+
+            throw new Error(
+                "FAQ API failed"
+            );
         }
+
 
         const faqs =
             await response.json();
 
-        displayFAQs(faqs);
+
+        displayFAQs(
+            faqs
+        );
 
     } catch (error) {
 
@@ -332,10 +809,13 @@ async function loadFAQs() {
             error
         );
 
+
         faqList.innerHTML =
-            `<div class="empty-state">
-                Unable to load FAQs.
-            </div>`;
+            `
+                <div class="empty-state">
+                    Unable to load FAQs.
+                </div>
+            `;
     }
 }
 
@@ -344,43 +824,66 @@ async function loadFAQs() {
 // DISPLAY FAQS
 // ==========================================
 
-function displayFAQs(faqs) {
+function displayFAQs(
+    faqs
+) {
 
     const faqList =
-        document.getElementById("faqList");
+        document.getElementById(
+            "faqList"
+        );
 
-    if (!faqs || faqs.length === 0) {
+
+    if (!faqList) {
+        return;
+    }
+
+
+    if (
+        !Array.isArray(faqs) ||
+        faqs.length === 0
+    ) {
 
         faqList.innerHTML =
-            `<div class="empty-state">
-                No FAQs found.
-            </div>`;
+            `
+                <div class="empty-state">
+                    No FAQs found.
+                </div>
+            `;
 
         return;
     }
 
+
     faqList.innerHTML =
-        faqs.map(faq => {
+        faqs
+            .map(
+                faq => `
 
-            return `
-                <div class="faq-card">
+                    <div class="faq-card">
 
-                    <div class="faq-category">
-                        ${escapeHtml(faq.category)}
+                        <div class="faq-category">
+                            ${escapeHtml(
+                                faq.category
+                            )}
+                        </div>
+
+                        <h3>
+                            ${escapeHtml(
+                                faq.question
+                            )}
+                        </h3>
+
+                        <p>
+                            ${escapeHtml(
+                                faq.answer
+                            )}
+                        </p>
+
                     </div>
-
-                    <h3>
-                        ${escapeHtml(faq.question)}
-                    </h3>
-
-                    <p>
-                        ${escapeHtml(faq.answer)}
-                    </p>
-
-                </div>
-            `;
-
-        }).join("");
+                `
+            )
+            .join("");
 }
 
 
@@ -390,10 +893,29 @@ function displayFAQs(faqs) {
 
 async function searchFAQs() {
 
+    const searchInput =
+        document.getElementById(
+            "faqSearch"
+        );
+
+
+    const faqList =
+        document.getElementById(
+            "faqList"
+        );
+
+
+    if (
+        !searchInput ||
+        !faqList
+    ) {
+        return;
+    }
+
+
     const keyword =
-        document.getElementById("faqSearch")
-            .value
-            .trim();
+        searchInput.value.trim();
+
 
     if (!keyword) {
 
@@ -402,11 +924,14 @@ async function searchFAQs() {
         return;
     }
 
-    const faqList =
-        document.getElementById("faqList");
 
     faqList.innerHTML =
-        `<div class="loading">Searching...</div>`;
+        `
+            <div class="loading">
+                Searching...
+            </div>
+        `;
+
 
     try {
 
@@ -415,14 +940,22 @@ async function searchFAQs() {
                 `${API_BASE}/faqs/search?keyword=${encodeURIComponent(keyword)}`
             );
 
+
         if (!response.ok) {
-            throw new Error("FAQ search failed");
+
+            throw new Error(
+                "FAQ search failed"
+            );
         }
+
 
         const faqs =
             await response.json();
 
-        displayFAQs(faqs);
+
+        displayFAQs(
+            faqs
+        );
 
     } catch (error) {
 
@@ -431,44 +964,92 @@ async function searchFAQs() {
             error
         );
 
+
         faqList.innerHTML =
-            `<div class="empty-state">
-                Search failed.
-            </div>`;
+            `
+                <div class="empty-state">
+                    Search failed.
+                </div>
+            `;
     }
 }
 
 
 // ==========================================
-// CREATE SUPPORT TICKET
+// MANUAL TICKET
 // ==========================================
 
-async function createTicket(event) {
+async function createTicket(
+    event
+) {
 
     event.preventDefault();
+
+
+    const nameElement =
+        document.getElementById(
+            "ticketName"
+        );
+
+
+    const emailElement =
+        document.getElementById(
+            "ticketEmail"
+        );
+
+
+    const categoryElement =
+        document.getElementById(
+            "ticketCategory"
+        );
+
+
+    const descriptionElement =
+        document.getElementById(
+            "ticketDescription"
+        );
+
+
+    if (
+        !nameElement ||
+        !emailElement ||
+        !categoryElement ||
+        !descriptionElement
+    ) {
+        return;
+    }
+
 
     const ticket = {
 
         studentName:
-            document.getElementById(
-                "ticketName"
-            ).value.trim(),
+            nameElement.value.trim(),
 
         email:
-            document.getElementById(
-                "ticketEmail"
-            ).value.trim(),
+            emailElement.value.trim(),
 
         category:
-            document.getElementById(
-                "ticketCategory"
-            ).value,
+            categoryElement.value,
 
         description:
-            document.getElementById(
-                "ticketDescription"
-            ).value.trim()
+            descriptionElement.value.trim()
     };
+
+
+    if (
+        !ticket.studentName ||
+        !ticket.email ||
+        !ticket.category ||
+        !ticket.description
+    ) {
+
+        alert(
+            "Please complete all required ticket fields."
+        );
+
+        return;
+    }
+
 
     try {
 
@@ -484,28 +1065,49 @@ async function createTicket(event) {
                     },
 
                     body:
-                        JSON.stringify(ticket)
+                        JSON.stringify(
+                            ticket
+                        )
                 }
             );
 
+
         if (!response.ok) {
-            throw new Error("Ticket creation failed");
+
+            throw new Error(
+                "Ticket creation failed"
+            );
         }
+
 
         const savedTicket =
             await response.json();
 
+
         alert(
-            `Ticket #${savedTicket.id} created successfully!`
+            `Ticket #${savedTicket.id} created successfully.`
         );
 
-        document
-            .getElementById("ticketForm")
-            .reset();
+
+        const form =
+            document.getElementById(
+                "ticketForm"
+            );
+
+
+        if (form) {
+            form.reset();
+        }
+
+
+        saveStudentDetails(
+            ticket.studentName,
+            ticket.email
+        );
+
 
         loadTickets();
 
-        // Refresh dashboard numbers
         loadDashboard();
 
     } catch (error) {
@@ -514,6 +1116,7 @@ async function createTicket(event) {
             "Ticket error:",
             error
         );
+
 
         alert(
             "Unable to create the ticket. Please try again."
@@ -529,12 +1132,23 @@ async function createTicket(event) {
 async function loadTickets() {
 
     const ticketList =
-        document.getElementById("ticketList");
+        document.getElementById(
+            "ticketList"
+        );
+
+
+    if (!ticketList) {
+        return;
+    }
+
 
     ticketList.innerHTML =
-        `<div class="loading">
-            Loading tickets...
-        </div>`;
+        `
+            <div class="loading">
+                Loading tickets...
+            </div>
+        `;
+
 
     try {
 
@@ -543,14 +1157,22 @@ async function loadTickets() {
                 `${API_BASE}/tickets`
             );
 
+
         if (!response.ok) {
-            throw new Error("Ticket API failed");
+
+            throw new Error(
+                "Ticket API failed"
+            );
         }
+
 
         const tickets =
             await response.json();
 
-        displayTickets(tickets);
+
+        displayTickets(
+            tickets
+        );
 
     } catch (error) {
 
@@ -559,10 +1181,13 @@ async function loadTickets() {
             error
         );
 
+
         ticketList.innerHTML =
-            `<div class="empty-state">
-                Unable to load tickets.
-            </div>`;
+            `
+                <div class="empty-state">
+                    Unable to load tickets.
+                </div>
+            `;
     }
 }
 
@@ -571,53 +1196,195 @@ async function loadTickets() {
 // DISPLAY TICKETS
 // ==========================================
 
-function displayTickets(tickets) {
+function displayTickets(
+    tickets
+) {
 
     const ticketList =
-        document.getElementById("ticketList");
+        document.getElementById(
+            "ticketList"
+        );
 
-    if (!tickets || tickets.length === 0) {
+
+    if (!ticketList) {
+        return;
+    }
+
+
+    if (
+        !Array.isArray(tickets) ||
+        tickets.length === 0
+    ) {
 
         ticketList.innerHTML =
-            `<div class="empty-state">
-                No tickets created yet.
-            </div>`;
+            `
+                <div class="empty-state">
+                    No tickets created yet.
+                </div>
+            `;
 
         return;
     }
 
+
     ticketList.innerHTML =
-        tickets.map(ticket => {
+        tickets
+            .map(
+                ticket => `
 
-            return `
-                <div class="ticket-item">
+                    <div class="ticket-item">
 
-                    <div class="ticket-item-top">
+                        <div class="ticket-item-top">
 
-                        <h3>
-                            Ticket #${ticket.id}
-                        </h3>
+                            <h3>
+                                Ticket #${escapeHtml(
+                                    ticket.id
+                                )}
+                            </h3>
 
-                        <span class="ticket-status">
-                            ${escapeHtml(ticket.status)}
-                        </span>
+                            <span class="ticket-status">
+                                ${escapeHtml(
+                                    ticket.status
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <p>
+                            <strong>
+                                ${escapeHtml(
+                                    ticket.category
+                                )}
+                            </strong>
+                        </p>
+
+
+                        <p>
+                            ${escapeHtml(
+                                ticket.description
+                            )}
+                        </p>
 
                     </div>
+                `
+            )
+            .join("");
+}
 
-                    <p>
-                        <strong>
-                            ${escapeHtml(ticket.category)}
-                        </strong>
-                    </p>
 
-                    <p>
-                        ${escapeHtml(ticket.description)}
-                    </p>
+// ==========================================
+// STUDENT DETAILS
+// ==========================================
 
-                </div>
-            `;
+function saveStudentDetails(
+    name,
+    email
+) {
 
-        }).join("");
+    try {
+
+        if (name) {
+
+            localStorage.setItem(
+                "nodefixStudentName",
+                name
+            );
+        }
+
+
+        if (email) {
+
+            localStorage.setItem(
+                "nodefixStudentEmail",
+                email
+            );
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "Could not save student details.",
+            error
+        );
+    }
+}
+
+
+function getStoredStudentName() {
+
+    try {
+
+        return (
+            localStorage.getItem(
+                "nodefixStudentName"
+            ) || ""
+        );
+
+    } catch (_) {
+
+        return "";
+    }
+}
+
+
+function getStoredStudentEmail() {
+
+    try {
+
+        return (
+            localStorage.getItem(
+                "nodefixStudentEmail"
+            ) || ""
+        );
+
+    } catch (_) {
+
+        return "";
+    }
+}
+
+
+// ==========================================
+// MESSAGE FORMAT
+// ==========================================
+
+function formatMessage(
+    message
+) {
+
+    if (
+        message === null ||
+        message === undefined
+    ) {
+        return "";
+    }
+
+
+    let safe =
+        escapeHtml(
+            message
+        );
+
+
+    /*
+     * Make official URLs clickable.
+     */
+    safe =
+        safe.replace(
+            /(https?:\/\/[^\s<]+)/g,
+            '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+        );
+
+
+    safe =
+        safe.replace(
+            /\n/g,
+            "<br>"
+        );
+
+
+    return safe;
 }
 
 
@@ -625,25 +1392,49 @@ function displayTickets(tickets) {
 // SECURITY HELPER
 // ==========================================
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
-    if (value === null ||
-        value === undefined) {
-
+    if (
+        value === null ||
+        value === undefined
+    ) {
         return "";
     }
 
+
     return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 
 // ==========================================
-// INITIALIZE APPLICATION
+// INITIALIZE
 // ==========================================
 
 document.addEventListener(
@@ -651,8 +1442,9 @@ document.addEventListener(
     () => {
 
         console.log(
-            "UniAssist frontend loaded."
+            "NodeFix frontend loaded."
         );
+
 
         loadDashboard();
 

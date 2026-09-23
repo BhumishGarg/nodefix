@@ -4,19 +4,1104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b3551">
+
     <title>NodeFix | Student Support Agent</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <style>
+        /* =========================================================
+           NODEFIX AI CHAT
+           Pink + Blue animated background
+           ========================================================= */
+
+        .chat-header {
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid #e6eef2;
+        }
+
+        .chat-header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(55, 166, 221, 0.65),
+                    rgba(238, 105, 179, 0.58),
+                    transparent
+                );
+
+            background-size: 220% 100%;
+
+            animation:
+                nodefixHeaderSweep
+                7s
+                ease-in-out
+                infinite;
+        }
+
+
+        /* =========================================================
+           AVATAR
+           ========================================================= */
+
+        .chat-avatar,
+        .message-avatar {
+
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #35a9de,
+                    #1b78bf 58%,
+                    #a24eaf
+                );
+
+            box-shadow:
+                0 8px 20px
+                rgba(39, 135, 191, 0.2);
+        }
+
+        .chat-avatar::after,
+        .message-avatar::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 120%;
+            height: 45%;
+
+            top: -10%;
+            left: -10%;
+
+            background:
+                rgba(255, 255, 255, 0.22);
+
+            transform:
+                rotate(-28deg);
+
+            animation:
+                nodefixShine
+                5s
+                linear
+                infinite;
+        }
+
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .chat-title-wrap {
+            min-width: 0;
+        }
+
+        .chat-title-line {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+        }
+
+        .verified-pill {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            color: #237aa8;
+
+            font-size: 8px;
+
+            font-weight: 750;
+
+            border:
+                1px solid
+                rgba(52, 163, 208, 0.16);
+
+            background:
+                rgba(54, 177, 224, 0.08);
+
+            border-radius:
+                999px;
+
+            padding:
+                4px 7px;
+
+            line-height: 1;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.2px;
+        }
+
+        .chat-online {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            margin-top: 5px;
+
+            color: #3a9b72;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+        .chat-online i {
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background:
+                #4eb887;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(78, 184, 135, 0.1);
+        }
+
+
+        /* =========================================================
+           LANGUAGE
+           ========================================================= */
+
+        .chat-header-controls {
+
+            margin-left: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+        .language-picker {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding:
+                6px 8px;
+
+            border:
+                1px solid
+                #dbe9ef;
+
+            border-radius:
+                9px;
+
+            background:
+                rgba(255,255,255,0.84);
+
+            color:
+                #7590a0;
+        }
+
+        .language-picker span {
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            color:
+                #8097a5;
+        }
+
+        .language-picker select {
+
+            border: 0;
+
+            outline: 0;
+
+            background:
+                transparent;
+
+            color:
+                #35576d;
+
+            font-size: 9px;
+
+            font-weight: 750;
+
+            cursor: pointer;
+        }
+
+        .chat-header-note {
+
+            color:
+                #8296a3;
+
+            font-size: 9px;
+
+            font-weight: 650;
+        }
+
+
+        /* =========================================================
+           CHAT AREA
+           ========================================================= */
+
+        .chat-messages {
+
+            position: relative;
+
+            isolation: isolate;
+
+            overflow:
+                hidden auto;
+
+            background:
+
+                radial-gradient(
+                    circle at 14% 17%,
+                    rgba(69,178,231,0.10),
+                    transparent 25%
+                ),
+
+                radial-gradient(
+                    circle at 86% 23%,
+                    rgba(243,111,184,0.10),
+                    transparent 23%
+                ),
+
+                linear-gradient(
+                    180deg,
+                    #f8fbfd 0%,
+                    #f6fbfd 52%,
+                    #fbf8fc 100%
+                );
+        }
+
+
+        /* =========================================================
+           MOVING AURORA
+           ========================================================= */
+
+        .chat-messages::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset:
+                -22%;
+
+            z-index:
+                -4;
+
+            background:
+
+                radial-gradient(
+                    circle at 28% 38%,
+                    rgba(69,181,234,0.20),
+                    transparent 24%
+                ),
+
+                radial-gradient(
+                    circle at 76% 63%,
+                    rgba(240,103,183,0.18),
+                    transparent 22%
+                ),
+
+                radial-gradient(
+                    circle at 56% 10%,
+                    rgba(105,201,234,0.10),
+                    transparent 19%
+                );
+
+            filter:
+                blur(16px);
+
+            animation:
+                nodefixAurora
+                18s
+                ease-in-out
+                infinite alternate;
+        }
+
+
+        /* =========================================================
+           LIGHT SWEEP
+           ========================================================= */
+
+        .chat-messages::after {
+
+            content: "";
+
+            position: absolute;
+
+            inset:
+                0;
+
+            z-index:
+                -3;
+
+            background:
+
+                linear-gradient(
+                    120deg,
+                    transparent 0%,
+                    rgba(255,255,255,0.38) 42%,
+                    transparent 58%
+                );
+
+            background-size:
+                240% 100%;
+
+            animation:
+                nodefixLightPass
+                12s
+                ease-in-out
+                infinite;
+
+            pointer-events:
+                none;
+        }
+
+
+        /* =========================================================
+           FLOATING ORBS
+           ========================================================= */
+
+        .chat-orb {
+
+            position: absolute;
+
+            border-radius:
+                50%;
+
+            filter:
+                blur(2px);
+
+            pointer-events:
+                none;
+
+            z-index:
+                -2;
+        }
+
+        .orb-one {
+
+            width:
+                180px;
+
+            height:
+                180px;
+
+            top:
+                56px;
+
+            right:
+                -48px;
+
+            background:
+
+                radial-gradient(
+                    circle at 34% 34%,
+                    rgba(126,217,247,0.24),
+                    rgba(61,166,219,0.09) 48%,
+                    transparent 72%
+                );
+
+            animation:
+                nodefixOrbOne
+                13s
+                ease-in-out
+                infinite;
+        }
+
+        .orb-two {
+
+            width:
+                220px;
+
+            height:
+                220px;
+
+            bottom:
+                -80px;
+
+            left:
+                -70px;
+
+            background:
+
+                radial-gradient(
+                    circle at 62% 42%,
+                    rgba(255,178,219,0.23),
+                    rgba(239,101,181,0.08) 50%,
+                    transparent 75%
+                );
+
+            animation:
+                nodefixOrbTwo
+                16s
+                ease-in-out
+                infinite;
+        }
+
+
+        /* =========================================================
+           GRID
+           ========================================================= */
+
+        .chat-grid-lines {
+
+            position: absolute;
+
+            inset: 0;
+
+            z-index:
+                -1;
+
+            opacity:
+                0.42;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(93,174,211,0.055) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    rgba(227,126,184,0.045) 1px,
+                    transparent 1px
+                );
+
+            background-size:
+                32px 32px;
+
+            mask-image:
+
+                linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,0.1),
+                    rgba(0,0,0,0.55),
+                    rgba(0,0,0,0.08)
+                );
+
+            animation:
+                nodefixGridDrift
+                22s
+                linear
+                infinite;
+
+            pointer-events:
+                none;
+        }
+
+
+        /* =========================================================
+           MESSAGES
+           ========================================================= */
+
+        .chat-messages > .message {
+
+            position: relative;
+
+            z-index: 1;
+
+            animation:
+                nodefixMessageIn
+                0.38s
+                ease
+                both;
+        }
+
+        .message.bot .message-content p {
+
+            background:
+                rgba(255,255,255,0.92);
+
+            border-color:
+                rgba(201,220,229,0.72);
+
+            box-shadow:
+
+                0 6px 20px
+                rgba(31,84,112,0.055),
+
+                0 1px 3px
+                rgba(31,84,112,0.03);
+
+            backdrop-filter:
+                blur(5px);
+        }
+
+        .message.user .message-content p {
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #0b5a86,
+                    #197fba 60%,
+                    #6e4b9e
+                );
+
+            box-shadow:
+
+                0 9px 22px
+                rgba(20,103,153,0.17);
+        }
+
+        .message-source {
+
+            display: block;
+
+            margin:
+                6px 2px 0;
+
+            color:
+                #8ba0ad;
+
+            font-size:
+                8px;
+
+            font-weight:
+                650;
+
+            letter-spacing:
+                0.1px;
+        }
+
+
+        /* =========================================================
+           KNOWLEDGE INDICATOR
+           ========================================================= */
+
+        .chat-context-note {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding:
+                8px 16px 6px;
+
+            border-top:
+                1px solid
+                rgba(219,233,239,0.74);
+
+            background:
+                rgba(255,255,255,0.68);
+
+            color:
+                #7c929f;
+
+            font-size:
+                9px;
+
+            font-weight:
+                650;
+        }
+
+        .context-dot {
+
+            width:
+                6px;
+
+            height:
+                6px;
+
+            border-radius:
+                50%;
+
+            background:
+                #5bc2df;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(91,194,223,0.1);
+
+            flex:
+                0 0 6px;
+        }
+
+
+        /* =========================================================
+           INPUT
+           ========================================================= */
+
+        .chat-input-shell {
+
+            flex:
+                1;
+
+            position:
+                relative;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+        }
+
+        .chat-input-shell::before {
+
+            content: "";
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            border-radius:
+                10px;
+
+            padding:
+                1px;
+
+            background:
+
+                linear-gradient(
+                    90deg,
+                    rgba(50,171,223,0.16),
+                    rgba(238,108,181,0.14)
+                );
+
+            pointer-events:
+                none;
+        }
+
+        .chat-input-shell input {
+
+            position:
+                relative;
+
+            z-index:
+                1;
+        }
+
+
+        /* =========================================================
+           SEND BUTTON
+           ========================================================= */
+
+        .chat-input-area > button {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #0b5b86,
+                    #1c85bc 68%,
+                    #6a4f9d
+                );
+
+            box-shadow:
+
+                0 7px 18px
+                rgba(21,109,157,0.17);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .chat-input-area > button::after {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            top:
+                -80%;
+
+            left:
+                -45%;
+
+            width:
+                55%;
+
+            height:
+                260%;
+
+            background:
+                rgba(255,255,255,0.28);
+
+            transform:
+                rotate(28deg);
+
+            animation:
+                nodefixSendShine
+                4.8s
+                linear
+                infinite;
+        }
+
+        .chat-input-area > button:hover {
+
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+
+                0 10px 24px
+                rgba(21,109,157,0.22);
+        }
+
+
+        /* =========================================================
+           TYPING
+           ========================================================= */
+
+        .typing-bubble {
+
+            display:
+                inline-flex !important;
+
+            align-items:
+                center;
+
+            gap:
+                4px;
+
+            min-height:
+                36px;
+        }
+
+        .typing-bubble span {
+
+            width:
+                5px;
+
+            height:
+                5px;
+
+            border-radius:
+                50%;
+
+            background:
+                #79a5bb;
+
+            animation:
+                nodefixTyping
+                1.15s
+                ease-in-out
+                infinite;
+        }
+
+        .typing-bubble span:nth-child(2) {
+            animation-delay:
+                0.14s;
+        }
+
+        .typing-bubble span:nth-child(3) {
+            animation-delay:
+                0.28s;
+        }
+
+
+        /* =========================================================
+           ANIMATIONS
+           ========================================================= */
+
+        @keyframes nodefixAurora {
+
+            0% {
+                transform:
+                    translate3d(-2%, -1%, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate3d(2%, 2%, 0)
+                    scale(1.04);
+            }
+
+            100% {
+                transform:
+                    translate3d(-1%, 3%, 0)
+                    scale(1.08);
+            }
+        }
+
+        @keyframes nodefixLightPass {
+
+            0%,
+            58% {
+
+                background-position:
+                    140% 0;
+
+                opacity:
+                    0.18;
+            }
+
+            74%,
+            86% {
+
+                background-position:
+                    20% 0;
+
+                opacity:
+                    0.30;
+            }
+
+            100% {
+
+                background-position:
+                    -80% 0;
+
+                opacity:
+                    0.12;
+            }
+        }
+
+        @keyframes nodefixOrbOne {
+
+            0%,
+            100% {
+
+                transform:
+                    translate3d(0,0,0)
+                    scale(1);
+            }
+
+            50% {
+
+                transform:
+                    translate3d(-18px,20px,0)
+                    scale(1.06);
+            }
+        }
+
+        @keyframes nodefixOrbTwo {
+
+            0%,
+            100% {
+
+                transform:
+                    translate3d(0,0,0)
+                    scale(1);
+            }
+
+            50% {
+
+                transform:
+                    translate3d(24px,-18px,0)
+                    scale(1.08);
+            }
+        }
+
+        @keyframes nodefixGridDrift {
+
+            from {
+                transform:
+                    translate3d(0,0,0);
+            }
+
+            to {
+                transform:
+                    translate3d(32px,32px,0);
+            }
+        }
+
+        @keyframes nodefixHeaderSweep {
+
+            0%,
+            68% {
+
+                background-position:
+                    120% 0;
+            }
+
+            86%,
+            100% {
+
+                background-position:
+                    -20% 0;
+            }
+        }
+
+        @keyframes nodefixShine {
+
+            0% {
+
+                transform:
+                    translateX(-160%)
+                    rotate(-28deg);
+            }
+
+            34%,
+            100% {
+
+                transform:
+                    translateX(300%)
+                    rotate(-28deg);
+            }
+        }
+
+        @keyframes nodefixSendShine {
+
+            0% {
+
+                transform:
+                    translateX(-220%)
+                    rotate(28deg);
+            }
+
+            36%,
+            100% {
+
+                transform:
+                    translateX(410%)
+                    rotate(28deg);
+            }
+        }
+
+        @keyframes nodefixMessageIn {
+
+            from {
+
+                opacity:
+                    0;
+
+                transform:
+                    translateY(8px);
+            }
+
+            to {
+
+                opacity:
+                    1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+        @keyframes nodefixTyping {
+
+            0%,
+            60%,
+            100% {
+
+                transform:
+                    translateY(0);
+
+                opacity:
+                    0.4;
+            }
+
+            30% {
+
+                transform:
+                    translateY(-3px);
+
+                opacity:
+                    1;
+            }
+        }
+
+
+        /* =========================================================
+           ACCESSIBILITY
+           ========================================================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .chat-messages::before,
+            .chat-messages::after,
+            .chat-orb,
+            .chat-grid-lines,
+            .chat-header::after,
+            .chat-avatar::after,
+            .message-avatar::after,
+            .chat-input-area > button::after,
+            .chat-messages > .message {
+
+                animation:
+                    none !important;
+            }
+        }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 720px) {
+
+            .chat-header-controls {
+                gap:
+                    8px;
+            }
+
+            .chat-header-note {
+                display:
+                    none;
+            }
+
+            .language-picker span {
+                display:
+                    none;
+            }
+        }
+    </style>
 </head>
+
 
 <body>
 
 <div class="app-shell">
 
-    <!-- ================= SIDEBAR ================= -->
+
+    <!-- =========================================================
+         SIDEBAR
+         ========================================================= -->
 
     <aside class="sidebar">
 
         <div>
+
 
             <!-- BRAND -->
 
@@ -27,6 +1112,7 @@
                 </div>
 
                 <div>
+
                     <div class="brand-name">
                         NodeFix
                     </div>
@@ -34,6 +1120,7 @@
                     <div class="brand-subtitle">
                         Student Support
                     </div>
+
                 </div>
 
             </div>
@@ -46,31 +1133,44 @@
             </div>
 
 
-            <nav class="sidebar-nav"
-                 aria-label="Primary navigation">
+            <nav
+                class="sidebar-nav"
+                aria-label="Primary navigation"
+            >
+
 
                 <!-- DASHBOARD -->
 
-                <button class="nav-item active"
-                        onclick="showSection('dashboard', this)">
+                <button
+                    class="nav-item active"
+                    onclick="showSection('dashboard', this)"
+                >
 
                     <span class="nav-icon">
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
 
-                            <path d="M4 10.5 12 4l8 6.5v8.2a1.3 1.3 0 0 1-1.3 1.3H5.3A1.3 1.3 0 0 1 4 18.7v-8.2Z"
-                                  stroke="currentColor"
-                                  stroke-width="1.8"/>
+                            <path
+                                d="M4 10.5 12 4l8 6.5v8.2a1.3 1.3 0 0 1-1.3 1.3H5.3A1.3 1.3 0 0 1 4 18.7v-8.2Z"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            />
 
-                            <path d="M9 20v-5.5h6V20"
-                                  stroke="currentColor"
-                                  stroke-width="1.8"
-                                  stroke-linecap="round"/>
+                            <path
+                                d="M9 20v-5.5h6V20"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linecap="round"
+                            />
 
                         </svg>
 
                     </span>
+
 
                     <span>
                         Dashboard
@@ -81,35 +1181,47 @@
 
                 <!-- AI ASSISTANT -->
 
-                <button class="nav-item"
-                        onclick="showSection('assistant', this)">
+                <button
+                    class="nav-item"
+                    onclick="showSection('assistant', this)"
+                >
 
                     <span class="nav-icon">
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
 
-                            <rect x="4"
-                                  y="5"
-                                  width="16"
-                                  height="14"
-                                  rx="3"
-                                  stroke="currentColor"
-                                  stroke-width="1.8"/>
+                            <rect
+                                x="4"
+                                y="5"
+                                width="16"
+                                height="14"
+                                rx="3"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            />
 
-                            <path d="M8 9.5h.01M16 9.5h.01M8 14h8"
-                                  stroke="currentColor"
-                                  stroke-width="2.2"
-                                  stroke-linecap="round"/>
+                            <path
+                                d="M8 9.5h.01M16 9.5h.01M8 14h8"
+                                stroke="currentColor"
+                                stroke-width="2.2"
+                                stroke-linecap="round"
+                            />
 
-                            <path d="M12 5V3M8 19v2M16 19v2"
-                                  stroke="currentColor"
-                                  stroke-width="1.6"
-                                  stroke-linecap="round"/>
+                            <path
+                                d="M12 5V3M8 19v2M16 19v2"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                            />
 
                         </svg>
 
                     </span>
+
 
                     <span>
                         AI Assistant
@@ -120,26 +1232,36 @@
 
                 <!-- SUPPORT TICKETS -->
 
-                <button class="nav-item"
-                        onclick="showSection('tickets', this)">
+                <button
+                    class="nav-item"
+                    onclick="showSection('tickets', this)"
+                >
 
                     <span class="nav-icon">
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
 
-                            <path d="M5 7.5A1.5 1.5 0 0 1 6.5 6h11A1.5 1.5 0 0 1 19 7.5v3.1a2 2 0 1 0 0 2.8v3.1a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 16.5v-3.1a2 2 0 1 0 0-2.8V7.5Z"
-                                  stroke="currentColor"
-                                  stroke-width="1.8"/>
+                            <path
+                                d="M5 7.5A1.5 1.5 0 0 1 6.5 6h11A1.5 1.5 0 0 1 19 7.5v3.1a2 2 0 1 0 0 2.8v3.1a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 16.5v-3.1a2 2 0 1 0 0-2.8V7.5Z"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            />
 
-                            <path d="M9 9.5h6M9 14.5h4"
-                                  stroke="currentColor"
-                                  stroke-width="1.6"
-                                  stroke-linecap="round"/>
+                            <path
+                                d="M9 9.5h6M9 14.5h4"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                            />
 
                         </svg>
 
                     </span>
+
 
                     <span>
                         Support Tickets
@@ -184,12 +1306,17 @@
     </aside>
 
 
-    <!-- ================= MAIN ================= -->
+
+    <!-- =========================================================
+         MAIN
+         ========================================================= -->
 
     <main class="main">
 
 
-        <!-- ================= TOP BAR ================= -->
+        <!-- =========================================================
+             TOP BAR
+             ========================================================= -->
 
         <header class="topbar">
 
@@ -231,12 +1358,14 @@
 
 
 
-        <!-- ===================================================== -->
-        <!-- DASHBOARD -->
-        <!-- ===================================================== -->
+        <!-- =========================================================
+             DASHBOARD
+             ========================================================= -->
 
-        <section id="dashboard"
-                 class="section active">
+        <section
+            id="dashboard"
+            class="section active"
+        >
 
 
             <!-- HERO -->
@@ -255,6 +1384,7 @@
                     <h2>
 
                         Get the answer.
+
                         <span>
                             Get on with your day.
                         </span>
@@ -275,22 +1405,29 @@
                     <div class="welcome-actions">
 
 
-                        <button class="primary-btn"
-                                onclick="showSectionByName('assistant')">
+                        <button
+                            class="primary-btn"
+                            onclick="showSectionByName('assistant')"
+                        >
 
                             <span>
                                 Open AI Assistant
                             </span>
 
 
-                            <svg viewBox="0 0 24 24"
-                                 fill="none">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                aria-hidden="true"
+                            >
 
-                                <path d="M5 12h13M13 6l6 6-6 6"
-                                      stroke="currentColor"
-                                      stroke-width="1.8"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"/>
+                                <path
+                                    d="M5 12h13M13 6l6 6-6 6"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
 
                             </svg>
 
@@ -298,8 +1435,10 @@
 
 
 
-                        <button class="secondary-btn"
-                                onclick="showSectionByName('tickets')">
+                        <button
+                            class="secondary-btn"
+                            onclick="showSectionByName('tickets')"
+                        >
 
                             Raise a support ticket
 
@@ -313,9 +1452,10 @@
 
                 <!-- AI PREVIEW -->
 
-                <div class="welcome-visual"
-                     aria-hidden="true">
-
+                <div
+                    class="welcome-visual"
+                    aria-hidden="true"
+                >
 
                     <div class="visual-glow"></div>
 
@@ -389,24 +1529,33 @@
 
                     <div class="stat-icon blue">
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
 
-                            <path d="M16 19v-1.4a3.6 3.6 0 0 0-3.6-3.6H7.6A3.6 3.6 0 0 0 4 17.6V19"
-                                  stroke="currentColor"
-                                  stroke-width="1.7"
-                                  stroke-linecap="round"/>
+                            <path
+                                d="M16 19v-1.4a3.6 3.6 0 0 0-3.6-3.6H7.6A3.6 3.6 0 0 0 4 17.6V19"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                            />
 
-                            <circle cx="10"
-                                    cy="7.5"
-                                    r="3"
-                                    stroke="currentColor"
-                                    stroke-width="1.7"/>
+                            <circle
+                                cx="10"
+                                cy="7.5"
+                                r="3"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            />
 
-                            <path d="M16.2 10.5a3 3 0 1 0 0-6"
-                                  stroke="currentColor"
-                                  stroke-width="1.7"
-                                  stroke-linecap="round"/>
+                            <path
+                                d="M16.2 10.5a3 3 0 1 0 0-6"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                            />
 
                         </svg>
 
@@ -435,17 +1584,24 @@
 
                     <div class="stat-icon cyan">
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
 
-                            <path d="M7 5h10a2 2 0 0 1 2 2v10l-3.2-2.3L12 17l-3.8-2.3L5 17V7a2 2 0 0 1 2-2Z"
-                                  stroke="currentColor"
-                                  stroke-width="1.7"/>
+                            <path
+                                d="M7 5h10a2 2 0 0 1 2 2v10l-3.2-2.3L12 17l-3.8-2.3L5 17V7a2 2 0 0 1 2-2Z"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                            />
 
-                            <path d="M8.5 9h7M8.5 12h5"
-                                  stroke="currentColor"
-                                  stroke-width="1.6"
-                                  stroke-linecap="round"/>
+                            <path
+                                d="M8.5 9h7M8.5 12h5"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                            />
 
                         </svg>
 
@@ -474,20 +1630,27 @@
 
                     <div class="stat-icon green">
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
 
-                            <path d="m6.5 12.5 3.3 3.3L17.8 8"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"/>
+                            <path
+                                d="m6.5 12.5 3.3 3.3L17.8 8"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
 
-                            <circle cx="12"
-                                    cy="12"
-                                    r="8.5"
-                                    stroke="currentColor"
-                                    stroke-width="1.6"/>
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="8.5"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                            />
 
                         </svg>
 
@@ -537,8 +1700,10 @@
 
                 <!-- AI ASSISTANT -->
 
-                <div class="service-card"
-                     onclick="showSectionByName('assistant')">
+                <div
+                    class="service-card"
+                    onclick="showSectionByName('assistant')"
+                >
 
 
                     <div class="service-card-top">
@@ -546,26 +1711,35 @@
 
                         <div class="service-icon">
 
-                            <svg viewBox="0 0 24 24"
-                                 fill="none">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                aria-hidden="true"
+                            >
 
-                                <rect x="4"
-                                      y="5"
-                                      width="16"
-                                      height="14"
-                                      rx="3"
-                                      stroke="currentColor"
-                                      stroke-width="1.7"/>
+                                <rect
+                                    x="4"
+                                    y="5"
+                                    width="16"
+                                    height="14"
+                                    rx="3"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"
+                                />
 
-                                <path d="M8 10h.01M16 10h.01M8.5 14h7"
-                                      stroke="currentColor"
-                                      stroke-width="1.8"
-                                      stroke-linecap="round"/>
+                                <path
+                                    d="M8 10h.01M16 10h.01M8.5 14h7"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                />
 
-                                <path d="M12 5V3"
-                                      stroke="currentColor"
-                                      stroke-width="1.6"
-                                      stroke-linecap="round"/>
+                                <path
+                                    d="M12 5V3"
+                                    stroke="currentColor"
+                                    stroke-width="1.6"
+                                    stroke-linecap="round"
+                                />
 
                             </svg>
 
@@ -600,8 +1774,10 @@
 
                 <!-- SUPPORT -->
 
-                <div class="service-card"
-                     onclick="showSectionByName('tickets')">
+                <div
+                    class="service-card"
+                    onclick="showSectionByName('tickets')"
+                >
 
 
                     <div class="service-card-top">
@@ -609,17 +1785,24 @@
 
                         <div class="service-icon">
 
-                            <svg viewBox="0 0 24 24"
-                                 fill="none">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                aria-hidden="true"
+                            >
 
-                                <path d="M5 7.5A1.5 1.5 0 0 1 6.5 6h11A1.5 1.5 0 0 1 19 7.5v3.1a2 2 0 1 0 0 2.8v3.1a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 16.5v-3.1a2 2 0 1 0 0-2.8V7.5Z"
-                                      stroke="currentColor"
-                                      stroke-width="1.7"/>
+                                <path
+                                    d="M5 7.5A1.5 1.5 0 0 1 6.5 6h11A1.5 1.5 0 0 1 19 7.5v3.1a2 2 0 1 0 0 2.8v3.1a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 5 16.5v-3.1a2 2 0 1 0 0-2.8V7.5Z"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"
+                                />
 
-                                <path d="M9 9.5h6M9 14.5h4"
-                                      stroke="currentColor"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"/>
+                                <path
+                                    d="M9 9.5h6M9 14.5h4"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    stroke-linecap="round"
+                                />
 
                             </svg>
 
@@ -656,13 +1839,14 @@
 
 
 
-        <!-- ===================================================== -->
-        <!-- AI ASSISTANT -->
-        <!-- ===================================================== -->
+        <!-- =========================================================
+             AI ASSISTANT
+             ========================================================= -->
 
-        <section id="assistant"
-                 class="section">
-
+        <section
+            id="assistant"
+            class="section"
+        >
 
             <div class="chat-container">
 
@@ -672,19 +1856,30 @@
                 <div class="chat-header">
 
 
-                    <div class="chat-avatar">
+                    <div
+                        class="chat-avatar"
+                        aria-hidden="true"
+                    >
                         N
                     </div>
 
 
-                    <div>
+                    <div class="chat-title-wrap">
 
-                        <h2>
-                            NodeFix AI
-                        </h2>
+                        <div class="chat-title-line">
+
+                            <h2>
+                                NodeFix AI
+                            </h2>
+
+                            <span class="verified-pill">
+                                Verified support
+                            </span>
+
+                        </div>
 
 
-                        <span>
+                        <span class="chat-online">
 
                             <i></i>
 
@@ -695,9 +1890,44 @@
                     </div>
 
 
-                    <div class="chat-header-note">
+                    <div class="chat-header-controls">
 
-                        University support assistant
+
+                        <label
+                            class="language-picker"
+                            for="chatLanguage"
+                        >
+
+                            <span>
+                                Language
+                            </span>
+
+
+                            <select
+                                id="chatLanguage"
+                                aria-label="Response language"
+                            >
+
+                                <option value="English">
+                                    English
+                                </option>
+
+                                <option value="Hindi">
+                                    Hindi
+                                </option>
+
+                                <option value="Punjabi">
+                                    Punjabi
+                                </option>
+
+                            </select>
+
+                        </label>
+
+
+                        <div class="chat-header-note">
+                            Chitkara University support
+                        </div>
 
                     </div>
 
@@ -705,16 +1935,46 @@
 
 
 
-                <!-- MESSAGES -->
+                <!-- CHAT MESSAGES -->
 
-                <div id="chatMessages"
-                     class="chat-messages">
+                <div
+                    id="chatMessages"
+                    class="chat-messages"
+                    aria-live="polite"
+                    aria-label="Chat messages"
+                >
 
+
+                    <!-- Animated background -->
+
+                    <div
+                        class="chat-orb orb-one"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div
+                        class="chat-orb orb-two"
+                        aria-hidden="true"
+                    ></div>
+
+
+                    <div
+                        class="chat-grid-lines"
+                        aria-hidden="true"
+                    ></div>
+
+
+
+                    <!-- INITIAL BOT MESSAGE -->
 
                     <div class="message bot">
 
 
-                        <div class="message-avatar">
+                        <div
+                            class="message-avatar"
+                            aria-hidden="true"
+                        >
                             N
                         </div>
 
@@ -723,13 +1983,17 @@
 
                             <p>
 
-                                Hello! I'm NodeFix.
-                                Ask me about exams,
-                                fees, attendance,
-                                library services,
-                                or other university support.
+                                Hello! I'm NodeFix. Ask me about
+                                exams, fees, attendance, library
+                                services, admissions, or other
+                                Chitkara University support.
 
                             </p>
+
+
+                            <small class="message-source">
+                                NodeFix Knowledge Base
+                            </small>
 
                         </div>
 
@@ -739,27 +2003,52 @@
 
 
 
-                <!-- QUICK PROMPTS -->
+                <!-- KNOWLEDGE INDICATOR -->
+
+                <div class="chat-context-note">
+
+                    <span class="context-dot"></span>
+
+                    Answers should be based on verified
+                    NodeFix university knowledge.
+
+                </div>
+
+
+
+                <!-- QUICK QUESTIONS -->
 
                 <div class="suggestions">
 
 
-                    <button onclick="askSuggestion('What are the exam details?')">
+                    <button
+                        type="button"
+                        onclick="askSuggestion('What are the exam details?')"
+                    >
                         Exam details
                     </button>
 
 
-                    <button onclick="askSuggestion('How can I pay my fees?')">
+                    <button
+                        type="button"
+                        onclick="askSuggestion('How can I pay my fees?')"
+                    >
                         Fee payment
                     </button>
 
 
-                    <button onclick="askSuggestion('What is the attendance requirement?')">
+                    <button
+                        type="button"
+                        onclick="askSuggestion('What is the attendance requirement?')"
+                    >
                         Attendance
                     </button>
 
 
-                    <button onclick="askSuggestion('What are the library timings?')">
+                    <button
+                        type="button"
+                        onclick="askSuggestion('What are the library timings?')"
+                    >
                         Library
                     </button>
 
@@ -767,35 +2056,52 @@
 
 
 
-                <!-- INPUT -->
+                <!-- CHAT INPUT -->
 
                 <div class="chat-input-area">
 
 
-                    <input
-                        id="chatInput"
-                        type="text"
-                        placeholder="Ask NodeFix a question..."
-                        onkeydown="handleChatKey(event)"
-                    >
+                    <div class="chat-input-shell">
+
+
+                        <input
+                            id="chatInput"
+                            type="text"
+                            placeholder="Ask NodeFix a question..."
+                            autocomplete="off"
+                            aria-label="Ask NodeFix a question"
+                            onkeydown="handleChatKey(event)"
+                        >
+
+                    </div>
+
 
 
                     <button
+                        type="button"
                         onclick="sendMessage()"
-                        aria-label="Send message">
+                        aria-label="Send message"
+                    >
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            aria-hidden="true"
+                        >
 
-                            <path d="m5 12 14-7-4.2 14-3.4-6.2L5 12Z"
-                                  stroke="currentColor"
-                                  stroke-width="1.8"
-                                  stroke-linejoin="round"/>
+                            <path
+                                d="m5 12 14-7-4.2 14-3.4-6.2L5 12Z"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                stroke-linejoin="round"
+                            />
 
-                            <path d="m11.4 12.8 2.5-2.5"
-                                  stroke="currentColor"
-                                  stroke-width="1.6"
-                                  stroke-linecap="round"/>
+                            <path
+                                d="m11.4 12.8 2.5-2.5"
+                                stroke="currentColor"
+                                stroke-width="1.6"
+                                stroke-linecap="round"
+                            />
 
                         </svg>
 
@@ -809,12 +2115,14 @@
 
 
 
-        <!-- ===================================================== -->
-        <!-- SUPPORT TICKETS -->
-        <!-- ===================================================== -->
+        <!-- =========================================================
+             SUPPORT TICKETS
+             ========================================================= -->
 
-        <section id="tickets"
-                 class="section">
+        <section
+            id="tickets"
+            class="section"
+        >
 
 
             <div class="section-heading page-section-heading">
@@ -868,8 +2176,10 @@
 
 
 
-                    <form id="ticketForm"
-                          onsubmit="createTicket(event)">
+                    <form
+                        id="ticketForm"
+                        onsubmit="createTicket(event)"
+                    >
 
 
                         <label>
@@ -905,8 +2215,10 @@
                         </label>
 
 
-                        <select id="ticketCategory"
-                                required>
+                        <select
+                            id="ticketCategory"
+                            required
+                        >
 
                             <option value="">
                                 Select category
@@ -956,21 +2268,27 @@
 
                         <button
                             class="primary-btn form-submit"
-                            type="submit">
+                            type="submit"
+                        >
 
                             <span>
                                 Submit Ticket
                             </span>
 
 
-                            <svg viewBox="0 0 24 24"
-                                 fill="none">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                aria-hidden="true"
+                            >
 
-                                <path d="M5 12h13M13 6l6 6-6 6"
-                                      stroke="currentColor"
-                                      stroke-width="1.8"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"/>
+                                <path
+                                    d="M5 12h13M13 6l6 6-6 6"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
 
                             </svg>
 

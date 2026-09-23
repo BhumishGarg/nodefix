@@ -2095,3 +2095,975 @@ svg {
     }
 
 }
+
+
+/* =========================================================
+   NODEFIX AI CHAT - PINK + BLUE ANIMATED DESIGN
+   ========================================================= */
+
+.chat-header {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid #e6eef2;
+}
+
+.chat-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(55, 166, 221, .65),
+            rgba(238, 105, 179, .58),
+            transparent
+        );
+
+    background-size: 220% 100%;
+    animation: chatHeaderSweep 7s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   CHAT AVATAR
+   ========================================================= */
+
+.chat-avatar {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #35a9de,
+            #1b78bf 58%,
+            #a24eaf
+        );
+
+    box-shadow:
+        0 8px 20px rgba(39, 135, 191, .23);
+}
+
+.chat-avatar::after {
+    content: "";
+
+    position: absolute;
+
+    width: 120%;
+    height: 45%;
+
+    top: -10%;
+    left: -10%;
+
+    background: rgba(255,255,255,.24);
+
+    transform: rotate(-28deg);
+
+    animation:
+        avatarShine 5s linear infinite;
+}
+
+
+/* =========================================================
+   CHAT TITLE
+   ========================================================= */
+
+.chat-title-wrap {
+    min-width: 0;
+}
+
+.chat-title-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.chat-title-line h2 {
+    margin: 0;
+}
+
+.verified-pill {
+    display: inline-flex;
+    align-items: center;
+
+    color: #237aa8;
+
+    font-size: 8px;
+    font-weight: 750;
+
+    border: 1px solid rgba(52, 163, 208, .16);
+
+    background:
+        rgba(54, 177, 224, .08);
+
+    border-radius: 999px;
+
+    padding: 4px 7px;
+
+    line-height: 1;
+
+    letter-spacing: .2px;
+
+    text-transform: uppercase;
+}
+
+.chat-online {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    margin-top: 5px;
+
+    color: #3a9b72;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   LANGUAGE SELECTOR
+   ========================================================= */
+
+.chat-header-controls {
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.language-picker {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 6px 8px;
+
+    border: 1px solid #dbe9ef;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,255,255,.82);
+
+    color: #7590a0;
+}
+
+.language-picker span {
+    margin: 0;
+
+    color: #8097a5;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.language-picker select {
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: #35576d;
+
+    font-size: 9px;
+    font-weight: 750;
+
+    cursor: pointer;
+}
+
+.chat-header-note {
+    color: #8296a3;
+
+    font-size: 9px;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   CHAT MESSAGE AREA
+   ========================================================= */
+
+.chat-messages {
+    position: relative;
+
+    isolation: isolate;
+
+    overflow: hidden auto;
+
+    background:
+
+        radial-gradient(
+            circle at 14% 17%,
+            rgba(69, 178, 231, .10),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 86% 23%,
+            rgba(243, 111, 184, .10),
+            transparent 23%
+        ),
+
+        linear-gradient(
+            180deg,
+            #f8fbfd 0%,
+            #f6fbfd 52%,
+            #fbf8fc 100%
+        );
+}
+
+
+/* =========================================================
+   MOVING AURORA
+   ========================================================= */
+
+.chat-messages::before {
+    content: "";
+
+    position: absolute;
+
+    inset: -22%;
+
+    z-index: -4;
+
+    background:
+
+        radial-gradient(
+            circle at 28% 38%,
+            rgba(69, 181, 234, .20),
+            transparent 24%
+        ),
+
+        radial-gradient(
+            circle at 76% 63%,
+            rgba(240, 103, 183, .18),
+            transparent 22%
+        ),
+
+        radial-gradient(
+            circle at 56% 10%,
+            rgba(105, 201, 234, .10),
+            transparent 19%
+        );
+
+    filter: blur(16px);
+
+    animation:
+        chatAurora 18s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   LIGHT SWEEP
+   ========================================================= */
+
+.chat-messages::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -3;
+
+    background:
+
+        linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(255,255,255,.38) 42%,
+            transparent 58%
+        );
+
+    background-size: 240% 100%;
+
+    animation:
+        chatLightPass 12s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   FLOATING PINK / BLUE ORBS
+   ========================================================= */
+
+.chat-orb {
+    position: absolute;
+
+    border-radius: 50%;
+
+    filter: blur(2px);
+
+    pointer-events: none;
+
+    z-index: -2;
+}
+
+.chat-orb::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 12%;
+
+    border-radius: inherit;
+
+    border:
+        1px solid rgba(255,255,255,.38);
+}
+
+
+/* BLUE ORB */
+
+.orb-one {
+    width: 180px;
+    height: 180px;
+
+    top: 56px;
+    right: -48px;
+
+    background:
+        radial-gradient(
+            circle at 34% 34%,
+            rgba(126, 217, 247, .24),
+            rgba(61, 166, 219, .09) 48%,
+            transparent 72%
+        );
+
+    animation:
+        orbFloatOne 13s ease-in-out infinite;
+}
+
+
+/* PINK ORB */
+
+.orb-two {
+    width: 220px;
+    height: 220px;
+
+    bottom: -80px;
+    left: -70px;
+
+    background:
+        radial-gradient(
+            circle at 62% 42%,
+            rgba(255, 178, 219, .23),
+            rgba(239, 101, 181, .08) 50%,
+            transparent 75%
+        );
+
+    animation:
+        orbFloatTwo 16s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   SUBTLE GRID
+   ========================================================= */
+
+.chat-grid-lines {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: -1;
+
+    opacity: .42;
+
+    background-image:
+
+        linear-gradient(
+            rgba(93, 174, 211, .055) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(227, 126, 184, .045) 1px,
+            transparent 1px
+        );
+
+    background-size: 32px 32px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.1),
+            rgba(0,0,0,.55),
+            rgba(0,0,0,.08)
+        );
+
+    animation:
+        gridDrift 22s linear infinite;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   KEEP MESSAGES ABOVE ANIMATION
+   ========================================================= */
+
+.chat-messages > .message {
+    position: relative;
+    z-index: 1;
+}
+
+.message {
+    animation:
+        messageIn .38s ease both;
+}
+
+
+/* =========================================================
+   BOT MESSAGE
+   ========================================================= */
+
+.message.bot .message-content p {
+    background:
+        rgba(255,255,255,.92);
+
+    border-color:
+        rgba(201, 220, 229, .72);
+
+    box-shadow:
+        0 6px 20px rgba(31, 84, 112, .055),
+        0 1px 3px rgba(31, 84, 112, .03);
+
+    backdrop-filter:
+        blur(5px);
+}
+
+
+/* =========================================================
+   USER MESSAGE
+   ========================================================= */
+
+.message.user .message-content p {
+    background:
+        linear-gradient(
+            135deg,
+            #0b5a86,
+            #197fba 60%,
+            #6e4b9e
+        );
+
+    box-shadow:
+        0 9px 22px rgba(20, 103, 153, .17);
+}
+
+
+/* =========================================================
+   MESSAGE AVATAR
+   ========================================================= */
+
+.message-avatar {
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #2c9bd4,
+            #155c8a 62%,
+            #9e4f98
+        );
+}
+
+.message-avatar::after {
+    content: "";
+
+    position: absolute;
+
+    width: 120%;
+    height: 34%;
+
+    top: -7%;
+    left: -12%;
+
+    background:
+        rgba(255,255,255,.20);
+
+    transform:
+        rotate(-28deg);
+
+    animation:
+        avatarShine 5s linear infinite;
+}
+
+
+/* =========================================================
+   KNOWLEDGE INDICATOR
+   ========================================================= */
+
+.chat-context-note {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        8px 16px 6px;
+
+    border-top:
+        1px solid rgba(219, 233, 239, .74);
+
+    background:
+        rgba(255,255,255,.68);
+
+    color:
+        #7c929f;
+
+    font-size: 9px;
+
+    font-weight: 650;
+}
+
+.context-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background:
+        #5bc2df;
+
+    box-shadow:
+        0 0 0 4px rgba(91, 194, 223, .10);
+
+    flex: 0 0 6px;
+}
+
+
+/* =========================================================
+   INPUT AREA
+   ========================================================= */
+
+.chat-input-area {
+    position: relative;
+
+    z-index: 3;
+
+    background:
+        rgba(255,255,255,.94);
+
+    backdrop-filter:
+        blur(10px);
+}
+
+.chat-input-shell {
+    flex: 1;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+}
+
+.chat-input-shell::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 10px;
+
+    padding: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(50,171,223,.16),
+            rgba(238,108,181,.14)
+        );
+
+    pointer-events: none;
+}
+
+.chat-input-area input {
+    position: relative;
+
+    z-index: 1;
+
+    background:
+        rgba(251,253,254,.94);
+}
+
+
+/* =========================================================
+   SEND BUTTON
+   ========================================================= */
+
+.chat-input-area > button {
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0b5b86,
+            #1c85bc 68%,
+            #6a4f9d
+        );
+
+    box-shadow:
+        0 7px 18px rgba(21, 109, 157, .17);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.chat-input-area > button::after {
+    content: "";
+
+    position: absolute;
+
+    top: -80%;
+    left: -45%;
+
+    width: 55%;
+    height: 260%;
+
+    background:
+        rgba(255,255,255,.28);
+
+    transform:
+        rotate(28deg);
+
+    animation:
+        sendShine 4.8s linear infinite;
+}
+
+.chat-input-area > button:hover {
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 10px 24px rgba(21, 109, 157, .22);
+}
+
+
+/* =========================================================
+   TYPING INDICATOR
+   ========================================================= */
+
+.typing-bubble {
+    display: inline-flex !important;
+
+    align-items: center;
+
+    gap: 4px;
+
+    min-height: 36px;
+}
+
+.typing-bubble span {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background:
+        #79a5bb;
+
+    animation:
+        typingPulse 1.15s ease-in-out infinite;
+}
+
+.typing-bubble span:nth-child(2) {
+    animation-delay:
+        .14s;
+}
+
+.typing-bubble span:nth-child(3) {
+    animation-delay:
+        .28s;
+}
+
+
+/* =========================================================
+   SOURCE LABEL
+   ========================================================= */
+
+.message-source {
+    display: block;
+
+    margin:
+        6px 2px 0;
+
+    color:
+        #8ba0ad;
+
+    font-size: 8px;
+
+    font-weight: 650;
+
+    letter-spacing: .1px;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes chatAurora {
+
+    0% {
+        transform:
+            translate3d(-2%, -1%, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate3d(2%, 2%, 0)
+            scale(1.04);
+    }
+
+    100% {
+        transform:
+            translate3d(-1%, 3%, 0)
+            scale(1.08);
+    }
+}
+
+
+@keyframes chatLightPass {
+
+    0%, 58% {
+        background-position:
+            140% 0;
+
+        opacity: .18;
+    }
+
+    74%, 86% {
+        background-position:
+            20% 0;
+
+        opacity: .30;
+    }
+
+    100% {
+        background-position:
+            -80% 0;
+
+        opacity: .12;
+    }
+}
+
+
+@keyframes orbFloatOne {
+
+    0%, 100% {
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate3d(-18px, 20px, 0)
+            scale(1.06);
+    }
+}
+
+
+@keyframes orbFloatTwo {
+
+    0%, 100% {
+        transform:
+            translate3d(0, 0, 0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate3d(24px, -18px, 0)
+            scale(1.08);
+    }
+}
+
+
+@keyframes gridDrift {
+
+    from {
+        transform:
+            translate3d(0, 0, 0);
+    }
+
+    to {
+        transform:
+            translate3d(32px, 32px, 0);
+    }
+}
+
+
+@keyframes chatHeaderSweep {
+
+    0%, 68% {
+        background-position:
+            120% 0;
+    }
+
+    86%, 100% {
+        background-position:
+            -20% 0;
+    }
+}
+
+
+@keyframes avatarShine {
+
+    0% {
+        transform:
+            translateX(-160%)
+            rotate(-28deg);
+    }
+
+    34%, 100% {
+        transform:
+            translateX(300%)
+            rotate(-28deg);
+    }
+}
+
+
+@keyframes sendShine {
+
+    0% {
+        transform:
+            translateX(-220%)
+            rotate(28deg);
+    }
+
+    36%, 100% {
+        transform:
+            translateX(410%)
+            rotate(28deg);
+    }
+}
+
+
+@keyframes messageIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+@keyframes typingPulse {
+
+    0%, 60%, 100% {
+        transform:
+            translateY(0);
+
+        opacity:
+            .4;
+    }
+
+    30% {
+        transform:
+            translateY(-3px);
+
+        opacity:
+            1;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .chat-messages::before,
+    .chat-messages::after,
+    .chat-orb,
+    .chat-grid-lines,
+    .chat-header::after,
+    .chat-avatar::after,
+    .message-avatar::after,
+    .chat-input-area > button::after,
+    .message {
+
+        animation:
+            none !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 720px) {
+
+    .chat-header-controls {
+        gap: 8px;
+    }
+
+    .chat-header-note {
+        display: none;
+    }
+
+    .language-picker span {
+        display: none;
+    }
+}
+
+.message-source {
+    display: block;
+    margin-top: 6px;
+    color: #8ba0ad;
+    font-size: 8px;
+    font-weight: 650;
+}
+
+.message-content a {
+    color: #1679b4;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.message-content a:hover {
+    opacity: 0.75;
+}
+
+.ticket-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 8px;
+    font-weight: 700;
+}

@@ -14,24 +14,32 @@ public class TicketController {
 
     private final TicketRepository ticketRepository;
 
-    public TicketController(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
+    public TicketController(
+            TicketRepository ticketRepository) {
+
+        this.ticketRepository =
+                ticketRepository;
     }
 
-    // Get all support tickets
     @GetMapping
     public List<Ticket> getAllTickets() {
-        return ticketRepository.findAllByOrderByCreatedAtDesc();
+
+        return ticketRepository
+                .findAllByOrderByCreatedAtDesc();
     }
 
-    // Create a new support ticket
     @PostMapping
-    public Ticket createTicket(@RequestBody Ticket ticket) {
+    public Ticket createTicket(
+            @RequestBody Ticket ticket) {
 
-        if (ticket.getStatus() == null) {
+        if (ticket.getStatus() == null ||
+            ticket.getStatus().isBlank()) {
+
             ticket.setStatus("OPEN");
         }
 
-        return ticketRepository.save(ticket);
+        return ticketRepository.save(
+                ticket
+        );
     }
 }
